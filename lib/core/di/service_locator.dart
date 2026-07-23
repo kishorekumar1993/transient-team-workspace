@@ -11,8 +11,19 @@ import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/domain/usecases/get_current_user_usecase.dart';
 import '../../features/auth/domain/usecases/login_usecase.dart';
 import '../../features/auth/domain/usecases/logout_usecase.dart';
+import '../../features/auth/domain/usecases/reset_password_usecase.dart';
 import '../../features/auth/domain/usecases/signup_usecase.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
+import '../../features/tasks/data/datasources/task_local_data_source.dart';
+import '../../features/tasks/data/datasources/task_remote_data_source.dart';
+import '../../features/tasks/data/repositories/task_repository_impl.dart';
+import '../../features/tasks/domain/repositories/task_repository.dart';
+import '../../features/tasks/domain/usecases/create_task_usecase.dart';
+import '../../features/tasks/domain/usecases/get_tasks_usecase.dart';
+import '../../features/tasks/domain/usecases/sync_offline_tasks_usecase.dart';
+import '../../features/tasks/domain/usecases/update_task_usecase.dart';
+import '../../features/tasks/presentation/bloc/task_form_bloc.dart';
+import '../../features/tasks/presentation/bloc/task_list_bloc.dart';
 import '../network/mock_task_api_interceptor.dart';
 import '../network/network_info.dart';
 import '../persistence/local_storage.dart';
@@ -64,6 +75,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => LoginUseCase(sl()));
   sl.registerLazySingleton(() => LogoutUseCase(sl()));
   sl.registerLazySingleton(() => GetCurrentUserUseCase(sl()));
+  sl.registerLazySingleton(() => ResetPasswordUseCase(sl()));
 
   // Auth BLoC (registered as factory since we rebuild it when routes load)
   sl.registerFactory(() => AuthBloc(
@@ -71,6 +83,33 @@ Future<void> init() async {
         loginUseCase: sl(),
         signUpUseCase: sl(),
         logoutUseCase: sl(),
+        resetPasswordUseCase: sl(),
       ));
 
+  // ---------------------------------------------------------------------------
+  // Tasks Feature
+  // ---------------------------------------------------------------------------
+  sl.registerLazySingleton<TaskRemoteDataSource>(() => TaskRemoteDataSourceImpl(dio: sl()));
+  sl.registerLazySingleton<TaskLocalDataSource>(() => TaskLocalDataSourceImpl(sharedPreferences: sl()));
+  sl.registerLazySingleton<TaskRepository>(() => TaskRepositoryImpl(
+        remoteDataSource: sl(),
+        localDataSource: sl(),
+        networkInfo: sl(),
+      ));
+
+  // Tasks Use Cases
+  sl.registerLazySingleton(() => GetTasksUseCase(sl()));
+  sl.registerLazySingleton(() => CreateTaskUseCase(sl()));
+  sl.registerLazySingleton(() => UpdateTaskUseCase(sl()));
+  sl.registerLazySingleton(() => SyncOfflineTasksUseCase(sl()));
+
+  // Tasks Blocs
+  sl.registerFactory(() => TaskListBloc(
+        getTasksUseCase: sl(),
+        syncOfflineTasksUseCase: sl(),
+      ));
+  sl.registerFactory(() => TaskFormBloc(
+        createTaskUseCase: sl(),
+        updateTaskUseCase: sl(),
+      ));
 }
