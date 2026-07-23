@@ -381,7 +381,7 @@ class _SettingsTabState extends State<SettingsTab> {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeThumbColor : AppTheme.primaryColor,
+            activeThumbColor: AppTheme.primaryColor,
           ),
         ],
       ),
