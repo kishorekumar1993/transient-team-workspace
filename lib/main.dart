@@ -3,23 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/di/service_locator.dart' as di;
 import 'core/theme/theme.dart';
+import 'core/theme/theme_cubit.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/auth/presentation/bloc/auth_event.dart';
 import 'features/auth/presentation/bloc/auth_state.dart';
 import 'features/auth/presentation/pages/login_page.dart';
+import 'features/tasks/presentation/bloc/task_list_bloc.dart';
+import 'features/tasks/presentation/pages/dashboard_page.dart';
+
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Try initializing Firebase Core (fail-safe fallback check)
   try {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
   } catch (e) {
     // ignore: avoid_print
     print('Firebase initialization failed (expected if config is missing): $e');
   }
 
-  // Initialize service locator
   await di.init();
 
   runApp(const MyApp());
@@ -32,6 +37,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<ThemeCubit>(
+          create: (context) => ThemeCubit(),
+        ),
         BlocProvider<AuthBloc>(
           create: (context) => di.sl<AuthBloc>()..add(AuthCheckRequested()),
         ),
@@ -39,13 +47,17 @@ class MyApp extends StatelessWidget {
           create: (context) => di.sl<TaskListBloc>(),
         ),
       ],
-      child: MaterialApp(
-        title: 'Team Workspace',
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        themeMode: ThemeMode.system, // Supports dark mode dynamically based on system preference
-        home: const AuthWrapper(),
-        debugShowCheckedModeBanner: false,
+      child: BlocBuilder<ThemeCubit, ThemeMode>(
+        builder: (context, themeMode) {
+          return MaterialApp(
+            title: 'Transient Workspace',
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: themeMode,
+            home: const AuthWrapper(),
+            debugShowCheckedModeBanner: false,
+          );
+        },
       ),
     );
   }
@@ -59,9 +71,9 @@ class AuthWrapper extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is Authenticated) {
-          //return const DashboardPage();
+          return const DashboardPage();
         } else if (state is Unauthenticated) {
-          return const  LoginPage();
+          return LoginPage();
         } else if (state is AuthLoading) {
           return const Scaffold(
             body: Center(
@@ -69,7 +81,7 @@ class AuthWrapper extends StatelessWidget {
             ),
           );
         } else {
-          return const LoginPage();
+          return LoginPage();
         }
       },
     );
