@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:transient/core/theme/theme_cubit.dart';
+import 'package:transient/features/auth/domain/entities/user_entity.dart';
 import 'package:transient/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:transient/features/auth/presentation/bloc/auth_event.dart';
 import 'package:transient/features/auth/presentation/bloc/auth_state.dart';
@@ -17,6 +18,9 @@ class FakeThemeCubit extends Cubit<ThemeMode> implements ThemeCubit {
 
   @override
   void toggleTheme() {}
+
+  @override
+  void setThemeMode(ThemeMode mode) {}
 }
 
 class FakeAuthBloc extends Cubit<AuthState> implements AuthBloc {
@@ -24,6 +28,21 @@ class FakeAuthBloc extends Cubit<AuthState> implements AuthBloc {
 
   @override
   void add(AuthEvent event) {}
+
+  @override
+  get getCurrentUserUseCase => null;
+
+  @override
+  get loginUseCase => null;
+
+  @override
+  get signUpUseCase => null;
+
+  @override
+  get logoutUseCase => null;
+
+  @override
+  get resetPasswordUseCase => null;
 }
 
 class FakeTaskListBloc extends Cubit<TaskListState> implements TaskListBloc {
@@ -31,6 +50,12 @@ class FakeTaskListBloc extends Cubit<TaskListState> implements TaskListBloc {
 
   @override
   void add(event) {}
+
+  @override
+  get getTasksUseCase => null;
+
+  @override
+  get syncOfflineTasksUseCase => null;
 }
 
 void main() {
@@ -50,13 +75,13 @@ void main() {
         BlocProvider<AuthBloc>.value(value: fakeAuthBloc),
         BlocProvider<TaskListBloc>.value(value: fakeTaskListBloc),
       ],
-      child: const MaterialApp(home: AuthWrapper()),
+      child: const MaterialApp(
+        home: AuthWrapper(),
+      ),
     );
   }
 
-  testWidgets('displays Loading Indicator when Auth state is loading', (
-    WidgetTester tester,
-  ) async {
+  testWidgets('displays Loading Indicator when Auth state is loading', (WidgetTester tester) async {
     fakeAuthBloc = FakeAuthBloc(AuthLoading());
 
     await tester.pumpWidget(createWidgetUnderTest());
@@ -64,9 +89,7 @@ void main() {
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 
-  testWidgets('renders LoginPage when state is Unauthenticated', (
-    WidgetTester tester,
-  ) async {
+  testWidgets('renders LoginPage when state is Unauthenticated', (WidgetTester tester) async {
     fakeAuthBloc = FakeAuthBloc(Unauthenticated());
 
     await tester.pumpWidget(createWidgetUnderTest());
@@ -75,10 +98,8 @@ void main() {
     expect(find.byType(LoginPage), findsOneWidget);
   });
 
-  testWidgets('renders DashboardPage when state is Authenticated', (
-    WidgetTester tester,
-  ) async {
-    fakeAuthBloc = FakeAuthBloc(const Authenticated(user: null));
+  testWidgets('renders DashboardPage when state is Authenticated', (WidgetTester tester) async {
+    fakeAuthBloc = FakeAuthBloc(const Authenticated(user: UserEntity(id: '123', email: 'test@workspace.com')));
 
     await tester.pumpWidget(createWidgetUnderTest());
     await tester.pumpAndSettle();

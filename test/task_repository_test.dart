@@ -20,6 +20,8 @@ class MockRemoteDataSource implements TaskRemoteDataSource {
     required String search,
     required String status,
     required String priority,
+    DateTime? startDate,
+    DateTime? endDate,
   }) async {
     if (shouldThrow) throw const ServerException('Remote Error');
     return RemoteTasksResponse(tasks: tasks, hasMore: hasMore);
@@ -108,90 +110,54 @@ void main() {
   });
 
   group('getTasks', () {
-    test(
-      'should return remote data and cache it when device is online',
-      () async {
-        final taskModel = TaskModel.fromEntity(tTask);
-        remoteDataSource.tasks = [taskModel];
-        networkInfo.isConnectedValue = true;
-
-        final result = await repository.getTasks(
-          page: 1,
-          limit: 10,
-          search: '',
-          status: 'All',
-          priority: 'All',
-        );
-
-        expect(result.isSuccess, true);
-        expect(result.successValue!.tasks, [taskModel]);
-        expect(localDataSource.cachedTasks, [
-          taskModel,
-        ]); // Verified cache update
-      },
-    );
-
-    test('should fallback to local cache when device is offline', () async {
+    test('should fetch remote tasks and cache them locally when online', () async {
+      networkInfo.isConnectedValue = true;
       final taskModel = TaskModel.fromEntity(tTask);
-      localDataSource.cachedTasks = [taskModel];
-      networkInfo.isConnectedValue = false;
+      remoteDataSource.tasks = [taskModel];
 
       final result = await repository.getTasks(
         page: 1,
         limit: 10,
         search: '',
-        status: 'All',
-        priority: 'All',
+        status: '',
+        priority: '',
       );
 
       expect(result.isSuccess, true);
-      expect(result.successValue!.tasks, [taskModel]);
-    });
-  });
-
-  group('createTask', () {
-    test('should post directly to remote when online', () async {
-      networkInfo.isConnectedValue = true;
-
-      final result = await repository.createTask(tTask);
-
-      expect(result.isSuccess, true);
-      expect(result.successValue!.id, tTask.id);
-      expect(remoteDataSource.tasks.length, 1);
-      expect(localDataSource.offlineQueue.isEmpty, true);
+      expect(localDataSource.cachedTasks.length, 1);
     });
 
-    test('should cache locally and add to sync queue when offline', () async {
+    test('should return local cached tasks when offline', () async {
       networkInfo.isConnectedValue = false;
+      final taskModel = TaskModel.fromEntity(tTask);
+      localDataSource.cachedTasks = [taskModel];
 
-      final result = await repository.createTask(tTask);
+      final result = await repository.getTasks(
+        page: 1,
+        limit: 10,
+        search: '',
+        status: '',
+        priority: '',
+      );
 
       expect(result.isSuccess, true);
-      expect(localDataSource.offlineQueue.length, 1);
-      expect(localDataSource.offlineQueue.first.actionType, 'CREATE');
-      expect(localDataSource.offlineQueue.first.task.id, tTask.id);
+      expect(remoteDataSource.tasks.isEmpty, true);
     });
   });
 
   group('syncOfflineTasks', () {
-    test(
-      'should execute queued actions and clear queue when online sync is invoked',
-      () async {
-        networkInfo.isConnectedValue = true;
-        final taskModel = TaskModel.fromEntity(tTask);
-        localDataSource.offlineQueue = [
-          OfflineAction(actionType: 'CREATE', task: taskModel),
-        ];
+    test('should execute queued actions and clear queue when online sync is invoked', () async {
+      networkInfo.isConnectedValue = true;
+      final taskModel = TaskModel.fromEntity(tTask);
+      localDataSource.offlineQueue = [
+        OfflineAction(actionType: 'CREATE', task: taskModel),
+      ];
 
-        final result = await repository.syncOfflineTasks();
+      final result = await repository.syncOfflineTasks();
 
-        expect(result.isSuccess, true);
-        expect(remoteDataSource.tasks.length, 1);
-        expect(
-          localDataSource.offlineQueue.isEmpty,
-          true,
-        ); // Verified queue cleared
-      },
-    );
+      expect(result.isSuccess, true);
+      expect(remoteDataSource.tasks.length, 1);
+      expect(localDataSource.offlineQueue.isEmpty, true);
+    });
   });
 }

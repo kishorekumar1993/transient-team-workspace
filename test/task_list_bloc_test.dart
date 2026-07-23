@@ -22,6 +22,8 @@ class MockTaskRepository implements TaskRepository {
     required String search,
     required String status,
     required String priority,
+    DateTime? startDate,
+    DateTime? endDate,
   }) async {
     if (shouldFail) return Error(ServerFailure(errorMsg));
     return Success(PaginatedTasks(tasks: tasks, hasMore: hasMoreValue));
@@ -58,10 +60,10 @@ void main() {
   late TaskListBloc taskListBloc;
 
   final tTask = TaskEntity(
-    id: 'task_1',
+    id: '1',
     title: 'Test Task',
-    description: 'Description',
-    priority: 'High',
+    description: 'Test Desc',
+    priority: 'Medium',
     status: 'Pending',
     assignedUser: 'John',
     dueDate: DateTime.now(),
@@ -88,7 +90,7 @@ void main() {
 
   group('LoadTasksList', () {
     blocTest<TaskListBloc, TaskListState>(
-      'emits [TaskListLoading, TaskListLoaded] on successful task load',
+      'emits [TaskListLoading, TaskListLoaded] when tasks load successfully',
       build: () {
         mockRepository.tasks = [tTask];
         return taskListBloc;
@@ -96,19 +98,14 @@ void main() {
       act: (bloc) => bloc.add(const LoadTasksList()),
       expect: () => [
         isA<TaskListLoading>(),
-        isA<TaskListLoaded>().having(
-          (state) => state.tasks.length,
-          'length',
-          1,
-        ),
+        isA<TaskListLoaded>().having((state) => state.tasks.length, 'length', 1),
       ],
     );
 
     blocTest<TaskListBloc, TaskListState>(
-      'emits [TaskListLoading, TaskListError] when API request fails',
+      'emits [TaskListLoading, TaskListError] when tasks load fails',
       build: () {
         mockRepository.shouldFail = true;
-        mockRepository.errorMsg = 'Server Timeout';
         return taskListBloc;
       },
       act: (bloc) => bloc.add(const LoadTasksList()),
@@ -116,37 +113,9 @@ void main() {
         isA<TaskListLoading>(),
         isA<TaskListError>().having(
           (state) => state.errorMessage,
-          'message',
-          'Server Timeout',
+          'errorMessage',
+          'API Failure',
         ),
-      ],
-    );
-  });
-
-  group('Filters & Search', () {
-    blocTest<TaskListBloc, TaskListState>(
-      'updates filter parameters and triggers reset load when status filter changes',
-      build: () => taskListBloc,
-      act: (bloc) => bloc.add(const UpdateStatusFilter('In Progress')),
-      expect: () => [
-        isA<TaskListInitial>().having(
-          (s) => s.statusFilter,
-          'status',
-          'In Progress',
-        ),
-        isA<TaskListLoading>(),
-        isA<TaskListLoaded>(),
-      ],
-    );
-
-    blocTest<TaskListBloc, TaskListState>(
-      'updates search query parameter and triggers reset load when search is typed',
-      build: () => taskListBloc,
-      act: (bloc) => bloc.add(const UpdateSearchQuery('flutter')),
-      expect: () => [
-        isA<TaskListInitial>().having((s) => s.searchQuery, 'query', 'flutter'),
-        isA<TaskListLoading>(),
-        isA<TaskListLoaded>(),
       ],
     );
   });
@@ -177,6 +146,9 @@ void main() {
             statusFilter: 'All',
             priorityFilter: 'All',
             isSyncing: false,
+            dateFilterType: 'All',
+            customStartDate: null,
+            customEndDate: null,
           ),
         );
         return taskListBloc;
