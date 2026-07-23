@@ -122,7 +122,7 @@ class _CreateEditTaskPageState extends State<CreateEditTaskPage> {
                   Container(
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      color: AppTheme.primaryColor.withValues(alpha:0.12),
+                      color: AppTheme.primaryColor.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
@@ -227,8 +227,8 @@ class _CreateEditTaskPageState extends State<CreateEditTaskPage> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withValues(alpha:
-                                    isDark ? 0.0 : 0.05,
+                                  color: Colors.black.withValues(
+                                    alpha: isDark ? 0.0 : 0.05,
                                   ),
                                   blurRadius: 20,
                                   offset: const Offset(0, 4),
@@ -244,8 +244,9 @@ class _CreateEditTaskPageState extends State<CreateEditTaskPage> {
                                     Container(
                                       padding: const EdgeInsets.all(6),
                                       decoration: BoxDecoration(
-                                        color: AppTheme.primaryColor
-                                            .withValues(alpha:0.12),
+                                        color: AppTheme.primaryColor.withValues(
+                                          alpha: 0.12,
+                                        ),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: const Icon(
@@ -281,8 +282,9 @@ class _CreateEditTaskPageState extends State<CreateEditTaskPage> {
                                     fontSize: 14.5,
                                   ),
                                   validator: (value) {
-                                    if (value == null || value.trim().isEmpty)
+                                    if (value == null || value.trim().isEmpty) {
                                       return 'Task title is required';
+                                    }
                                     return null;
                                   },
                                   decoration: InputDecoration(
@@ -316,9 +318,9 @@ class _CreateEditTaskPageState extends State<CreateEditTaskPage> {
                                     fontSize: 14.5,
                                   ),
                                   validator: (value) {
-                                    if (value == null || value.trim().isEmpty){
+                                    if (value == null || value.trim().isEmpty) {
                                       return 'Task description is required';
-                                      }
+                                    }
                                     return null;
                                   },
                                   decoration: const InputDecoration(
@@ -388,8 +390,8 @@ class _CreateEditTaskPageState extends State<CreateEditTaskPage> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withValues(alpha:
-                                    isDark ? 0.0 : 0.05,
+                                  color: Colors.black.withValues(
+                                    alpha: isDark ? 0.0 : 0.05,
                                   ),
                                   blurRadius: 20,
                                   offset: const Offset(0, 4),
@@ -407,7 +409,7 @@ class _CreateEditTaskPageState extends State<CreateEditTaskPage> {
                                       decoration: BoxDecoration(
                                         color: const Color(
                                           0xFF7C3AED,
-                                        ).withValues(alpha:0.12),
+                                        ).withValues(alpha: 0.12),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: const Icon(
@@ -475,8 +477,8 @@ class _CreateEditTaskPageState extends State<CreateEditTaskPage> {
                                             boxShadow: isSelected
                                                 ? [
                                                     BoxShadow(
-                                                      color: color.withValues(alpha:
-                                                        0.3,
+                                                      color: color.withValues(
+                                                        alpha: 0.3,
                                                       ),
                                                       blurRadius: 10,
                                                       offset: const Offset(
@@ -580,8 +582,8 @@ class _CreateEditTaskPageState extends State<CreateEditTaskPage> {
                                                       ? [
                                                           BoxShadow(
                                                             color: color
-                                                                .withValues(alpha:
-                                                                  0.3,
+                                                                .withValues(
+                                                                  alpha: 0.3,
                                                                 ),
                                                             blurRadius: 10,
                                                             offset:
@@ -651,7 +653,7 @@ class _CreateEditTaskPageState extends State<CreateEditTaskPage> {
                                           padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
                                             color: AppTheme.primaryColor
-                                                .withValues(alpha:0.12),
+                                                .withValues(alpha: 0.12),
                                             borderRadius: BorderRadius.circular(
                                               10,
                                             ),
@@ -722,8 +724,8 @@ class _CreateEditTaskPageState extends State<CreateEditTaskPage> {
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: AppTheme.primaryColor.withValues(alpha:
-                                        0.35,
+                                      color: AppTheme.primaryColor.withValues(
+                                        alpha: 0.35,
                                       ),
                                       blurRadius: 16,
                                       offset: const Offset(0, 4),

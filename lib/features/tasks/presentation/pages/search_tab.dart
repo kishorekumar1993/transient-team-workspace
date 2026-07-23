@@ -108,7 +108,7 @@ class _SearchTabState extends State<SearchTab> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha:isDark ? 0.0 : 0.04),
+                    color: Colors.black.withValues(alpha: isDark ? 0.0 : 0.04),
                     blurRadius: 16,
                     offset: const Offset(0, 4),
                   ),
@@ -171,7 +171,7 @@ class _SearchTabState extends State<SearchTab> {
                         Icon(
                           Icons.search_rounded,
                           size: 56,
-                          color: AppTheme.primaryColor.withValues(alpha:0.2),
+                          color: AppTheme.primaryColor.withValues(alpha: 0.2),
                         ),
                         const SizedBox(height: 16),
                         Text(
@@ -269,8 +269,8 @@ class _SearchTabState extends State<SearchTab> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withValues(alpha:
-                                    isDark ? 0.0 : 0.06,
+                                  color: Colors.black.withValues(
+                                    alpha: isDark ? 0.0 : 0.06,
                                   ),
                                   blurRadius: 20,
                                   offset: const Offset(0, 4),
@@ -319,7 +319,9 @@ class _SearchTabState extends State<SearchTab> {
                                                       ),
                                                   decoration: BoxDecoration(
                                                     color: priorityColor
-                                                        .withValues(alpha:0.12),
+                                                        .withValues(
+                                                          alpha: 0.12,
+                                                        ),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                           8,
@@ -345,7 +347,9 @@ class _SearchTabState extends State<SearchTab> {
                                                       ),
                                                   decoration: BoxDecoration(
                                                     color: statusColor
-                                                        .withValues(alpha:0.12),
+                                                        .withValues(
+                                                          alpha: 0.12,
+                                                        ),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                           20,
@@ -411,7 +415,7 @@ class _SearchTabState extends State<SearchTab> {
                                                   radius: 12,
                                                   backgroundColor: AppTheme
                                                       .primaryColor
-                                                      .withValues(alpha:0.15),
+                                                      .withValues(alpha: 0.15),
                                                   child: Text(
                                                     initials,
                                                     style: const TextStyle(

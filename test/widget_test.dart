@@ -28,10 +28,14 @@ class StubNetworkInfo implements NetworkInfo {
 
 // Modern mocks using mocktail and bloc_test
 class MockThemeCubit extends MockCubit<ThemeMode> implements ThemeCubit {}
+
 class MockAuthBloc extends MockBloc<AuthEvent, AuthState> implements AuthBloc {}
-class MockTaskListBloc extends MockBloc<TaskListEvent, TaskListState> implements TaskListBloc {}
+
+class MockTaskListBloc extends MockBloc<TaskListEvent, TaskListState>
+    implements TaskListBloc {}
 
 class FakeAuthEvent extends Fake implements AuthEvent {}
+
 class FakeTaskListEvent extends Fake implements TaskListEvent {}
 
 void main() {
@@ -42,7 +46,7 @@ void main() {
   setUpAll(() {
     registerFallbackValue(FakeAuthEvent());
     registerFallbackValue(FakeTaskListEvent());
-    
+
     // Register mock network info in GetIt for DashboardHomeTab dependency lookup
     final getIt = GetIt.instance;
     if (!getIt.isRegistered<NetworkInfo>()) {
@@ -113,7 +117,7 @@ void main() {
     await tester.pump();
 
     expect(find.byType(DashboardPage), findsOneWidget);
-    
+
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
   });

@@ -133,8 +133,8 @@ class _DashboardPageState extends State<DashboardPage> {
                       children: [
                         CircleAvatar(
                           radius: 18,
-                          backgroundColor: AppTheme.primaryColor.withValues(alpha:
-                            0.15,
+                          backgroundColor: AppTheme.primaryColor.withValues(
+                            alpha: 0.15,
                           ),
                           child: const Icon(
                             Icons.person_rounded,
@@ -206,7 +206,7 @@ class _DashboardPageState extends State<DashboardPage> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
             color: isSelected
-                ? AppTheme.primaryColor.withValues(alpha:0.1)
+                ? AppTheme.primaryColor.withValues(alpha: 0.1)
                 : Colors.transparent,
             borderRadius: BorderRadius.circular(10),
           ),
