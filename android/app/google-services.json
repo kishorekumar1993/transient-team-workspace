@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "441400530741",
+    "project_id": "transient-team-workspace",
+    "storage_bucket": "transient-team-workspace.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:441400530741:android:ffabde00990dc9e0e9de7c",
+        "android_client_info": {
+          "package_name": "com.example.transient"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnSjUNuv7DK5hA12Gw28LW2PY1tmYkOOI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
