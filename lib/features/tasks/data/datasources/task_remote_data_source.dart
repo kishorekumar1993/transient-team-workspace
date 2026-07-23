@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../../../core/config/app_config.dart';
 import '../../../../core/error/exceptions.dart';
 import '../models/task_model.dart';
 
@@ -27,7 +28,7 @@ class RemoteTasksResponse {
 
 class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
   final Dio dio;
-  static const _tasksUrl = 'https://api.workspace.com/v1/tasks';
+  String get _tasksUrl => AppConfig.instance.apiBaseUrl;
 
   TaskRemoteDataSourceImpl({required this.dio});
 
