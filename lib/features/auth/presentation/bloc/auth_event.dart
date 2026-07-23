@@ -19,3 +19,9 @@ class AuthSignUpSubmitted extends AuthEvent {
 }
 
 class AuthLogoutRequested extends AuthEvent {}
+
+class AuthResetPasswordRequested extends AuthEvent {
+  final String email;
+
+  const AuthResetPasswordRequested(this.email);
+}

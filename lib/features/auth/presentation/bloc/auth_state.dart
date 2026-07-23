@@ -22,3 +22,8 @@ class AuthError extends AuthState {
   final String message;
   const AuthError(this.message);
 }
+
+class AuthActionSuccess extends AuthState {
+  final String message;
+  const AuthActionSuccess(this.message);
+}

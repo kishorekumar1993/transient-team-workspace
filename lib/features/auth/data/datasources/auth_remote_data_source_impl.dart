@@ -71,6 +71,17 @@ class FirebaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw AuthException(e.toString());
     }
   }
+
+  @override
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await firebaseAuth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e.message ?? 'Failed to send password reset email');
+    } catch (e) {
+      throw AuthException(e.toString());
+    }
+  }
 }
 
 class MockAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -157,6 +168,18 @@ class MockAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       return UserModel.fromJson(jsonDecode(raw) as Map<String, dynamic>);
     } catch (_) {
       return null;
+    }
+  }
+
+  @override
+  Future<void> sendPasswordResetEmail(String email) async {
+    await Future.delayed(const Duration(milliseconds: 800));
+    if (email.isEmpty) {
+      throw const AuthException('Email cannot be empty');
+    }
+    final users = _getUsers();
+    if (!users.containsKey(email)) {
+      throw const AuthException('No user found matching this email address');
     }
   }
 }
