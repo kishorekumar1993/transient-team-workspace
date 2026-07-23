@@ -110,22 +110,25 @@ void main() {
   });
 
   group('getTasks', () {
-    test('should fetch remote tasks and cache them locally when online', () async {
-      networkInfo.isConnectedValue = true;
-      final taskModel = TaskModel.fromEntity(tTask);
-      remoteDataSource.tasks = [taskModel];
+    test(
+      'should fetch remote tasks and cache them locally when online',
+      () async {
+        networkInfo.isConnectedValue = true;
+        final taskModel = TaskModel.fromEntity(tTask);
+        remoteDataSource.tasks = [taskModel];
 
-      final result = await repository.getTasks(
-        page: 1,
-        limit: 10,
-        search: '',
-        status: '',
-        priority: '',
-      );
+        final result = await repository.getTasks(
+          page: 1,
+          limit: 10,
+          search: '',
+          status: '',
+          priority: '',
+        );
 
-      expect(result.isSuccess, true);
-      expect(localDataSource.cachedTasks.length, 1);
-    });
+        expect(result.isSuccess, true);
+        expect(localDataSource.cachedTasks.length, 1);
+      },
+    );
 
     test('should return local cached tasks when offline', () async {
       networkInfo.isConnectedValue = false;
@@ -146,18 +149,21 @@ void main() {
   });
 
   group('syncOfflineTasks', () {
-    test('should execute queued actions and clear queue when online sync is invoked', () async {
-      networkInfo.isConnectedValue = true;
-      final taskModel = TaskModel.fromEntity(tTask);
-      localDataSource.offlineQueue = [
-        OfflineAction(actionType: 'CREATE', task: taskModel),
-      ];
+    test(
+      'should execute queued actions and clear queue when online sync is invoked',
+      () async {
+        networkInfo.isConnectedValue = true;
+        final taskModel = TaskModel.fromEntity(tTask);
+        localDataSource.offlineQueue = [
+          OfflineAction(actionType: 'CREATE', task: taskModel),
+        ];
 
-      final result = await repository.syncOfflineTasks();
+        final result = await repository.syncOfflineTasks();
 
-      expect(result.isSuccess, true);
-      expect(remoteDataSource.tasks.length, 1);
-      expect(localDataSource.offlineQueue.isEmpty, true);
-    });
+        expect(result.isSuccess, true);
+        expect(remoteDataSource.tasks.length, 1);
+        expect(localDataSource.offlineQueue.isEmpty, true);
+      },
+    );
   });
 }

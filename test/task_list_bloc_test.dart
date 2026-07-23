@@ -98,7 +98,11 @@ void main() {
       act: (bloc) => bloc.add(const LoadTasksList()),
       expect: () => [
         isA<TaskListLoading>(),
-        isA<TaskListLoaded>().having((state) => state.tasks.length, 'length', 1),
+        isA<TaskListLoaded>().having(
+          (state) => state.tasks.length,
+          'length',
+          1,
+        ),
       ],
     );
 

@@ -120,10 +120,7 @@ void main() {
         return authBloc;
       },
       act: (bloc) => bloc.add(AuthCheckRequested()),
-      expect: () => [
-        isA<AuthLoading>(),
-        isA<Unauthenticated>(),
-      ],
+      expect: () => [isA<AuthLoading>(), isA<Unauthenticated>()],
     );
   });
 
@@ -131,10 +128,12 @@ void main() {
     blocTest<AuthBloc, AuthState>(
       'emits [AuthLoading, Authenticated] when login is successful',
       build: () => authBloc,
-      act: (bloc) => bloc.add(const AuthLoginSubmitted(
-        email: 'test@workspace.com',
-        password: 'password',
-      )),
+      act: (bloc) => bloc.add(
+        const AuthLoginSubmitted(
+          email: 'test@workspace.com',
+          password: 'password',
+        ),
+      ),
       expect: () => [
         isA<AuthLoading>(),
         isA<Authenticated>().having(
@@ -152,10 +151,12 @@ void main() {
         mockRepository.failMessage = 'Invalid credentials';
         return authBloc;
       },
-      act: (bloc) => bloc.add(const AuthLoginSubmitted(
-        email: 'test@workspace.com',
-        password: 'password',
-      )),
+      act: (bloc) => bloc.add(
+        const AuthLoginSubmitted(
+          email: 'test@workspace.com',
+          password: 'password',
+        ),
+      ),
       expect: () => [
         isA<AuthLoading>(),
         isA<AuthError>().having(
@@ -165,19 +166,16 @@ void main() {
         ),
       ],
     );
-   group('AuthLogoutRequested', () {
-    blocTest<AuthBloc, AuthState>(
-      'emits [AuthLoading, Unauthenticated] when logout is successful',
-      build: () {
-        mockRepository.mockUser = tUser;
-        return authBloc;
-      },
-      act: (bloc) => bloc.add(AuthLogoutRequested()),
-      expect: () => [
-        isA<AuthLoading>(),
-        isA<Unauthenticated>(),
-      ],
-    );
-  });
+    group('AuthLogoutRequested', () {
+      blocTest<AuthBloc, AuthState>(
+        'emits [AuthLoading, Unauthenticated] when logout is successful',
+        build: () {
+          mockRepository.mockUser = tUser;
+          return authBloc;
+        },
+        act: (bloc) => bloc.add(AuthLogoutRequested()),
+        expect: () => [isA<AuthLoading>(), isA<Unauthenticated>()],
+      );
+    });
   });
 }
