@@ -50,13 +50,13 @@ void main() {
         BlocProvider<AuthBloc>.value(value: fakeAuthBloc),
         BlocProvider<TaskListBloc>.value(value: fakeTaskListBloc),
       ],
-      child: const MaterialApp(
-        home: AuthWrapper(),
-      ),
+      child: const MaterialApp(home: AuthWrapper()),
     );
   }
 
-  testWidgets('displays Loading Indicator when Auth state is loading', (WidgetTester tester) async {
+  testWidgets('displays Loading Indicator when Auth state is loading', (
+    WidgetTester tester,
+  ) async {
     fakeAuthBloc = FakeAuthBloc(AuthLoading());
 
     await tester.pumpWidget(createWidgetUnderTest());
@@ -64,7 +64,9 @@ void main() {
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 
-  testWidgets('renders LoginPage when state is Unauthenticated', (WidgetTester tester) async {
+  testWidgets('renders LoginPage when state is Unauthenticated', (
+    WidgetTester tester,
+  ) async {
     fakeAuthBloc = FakeAuthBloc(Unauthenticated());
 
     await tester.pumpWidget(createWidgetUnderTest());
@@ -73,7 +75,9 @@ void main() {
     expect(find.byType(LoginPage), findsOneWidget);
   });
 
-  testWidgets('renders DashboardPage when state is Authenticated', (WidgetTester tester) async {
+  testWidgets('renders DashboardPage when state is Authenticated', (
+    WidgetTester tester,
+  ) async {
     fakeAuthBloc = FakeAuthBloc(const Authenticated(user: null));
 
     await tester.pumpWidget(createWidgetUnderTest());

@@ -15,7 +15,7 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -37,15 +37,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<ThemeCubit>(
-          create: (context) => ThemeCubit(),
-        ),
+        BlocProvider<ThemeCubit>(create: (context) => ThemeCubit()),
         BlocProvider<AuthBloc>(
           create: (context) => di.sl<AuthBloc>()..add(AuthCheckRequested()),
         ),
-        BlocProvider<TaskListBloc>(
-          create: (context) => di.sl<TaskListBloc>(),
-        ),
+        BlocProvider<TaskListBloc>(create: (context) => di.sl<TaskListBloc>()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, themeMode) {
@@ -76,9 +72,7 @@ class AuthWrapper extends StatelessWidget {
           return LoginPage();
         } else if (state is AuthLoading) {
           return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
+            body: Center(child: CircularProgressIndicator()),
           );
         } else {
           return LoginPage();

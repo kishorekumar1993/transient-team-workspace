@@ -6,10 +6,7 @@ class AppConfig {
   final Environment environment;
   final String apiBaseUrl;
 
-  AppConfig({
-    required this.environment,
-    required this.apiBaseUrl,
-  });
+  AppConfig({required this.environment, required this.apiBaseUrl});
 
   static AppConfig? _instance;
 
@@ -17,10 +14,7 @@ class AppConfig {
     required Environment environment,
     required String apiBaseUrl,
   }) {
-    _instance = AppConfig(
-      environment: environment,
-      apiBaseUrl: apiBaseUrl,
-    );
+    _instance = AppConfig(environment: environment, apiBaseUrl: apiBaseUrl);
   }
 
   static AppConfig get instance {

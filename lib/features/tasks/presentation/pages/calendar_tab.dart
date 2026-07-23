@@ -18,8 +18,10 @@ class _CalendarTabState extends State<CalendarTab> {
   DateTime _focusedMonth = DateTime.now();
   DateTime _selectedDay = DateTime.now();
 
-  DateTime get _firstDayOfMonth => DateTime(_focusedMonth.year, _focusedMonth.month, 1);
-  int get _daysInMonth => DateTime(_focusedMonth.year, _focusedMonth.month + 1, 0).day;
+  DateTime get _firstDayOfMonth =>
+      DateTime(_focusedMonth.year, _focusedMonth.month, 1);
+  int get _daysInMonth =>
+      DateTime(_focusedMonth.year, _focusedMonth.month + 1, 0).day;
 
   List<DateTime> get _calendarDays {
     final firstWeekday = _firstDayOfMonth.weekday % 7; // 0=Sun
@@ -38,17 +40,23 @@ class _CalendarTabState extends State<CalendarTab> {
 
   Color _priorityColor(String p) {
     switch (p) {
-      case 'High': return AppTheme.priorityHigh;
-      case 'Medium': return AppTheme.priorityMedium;
-      default: return AppTheme.priorityLow;
+      case 'High':
+        return AppTheme.priorityHigh;
+      case 'Medium':
+        return AppTheme.priorityMedium;
+      default:
+        return AppTheme.priorityLow;
     }
   }
 
   String _statusEmoji(String s) {
     switch (s) {
-      case 'Completed': return '✔';
-      case 'In Progress': return '🚀';
-      default: return '⏳';
+      case 'Completed':
+        return '✔';
+      case 'In Progress':
+        return '🚀';
+      default:
+        return '⏳';
     }
   }
 
@@ -72,7 +80,11 @@ class _CalendarTabState extends State<CalendarTab> {
                 color: AppTheme.primaryColor.withOpacity(0.12),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Icon(Icons.calendar_month_rounded, color: AppTheme.primaryColor, size: 20),
+              child: const Icon(
+                Icons.calendar_month_rounded,
+                color: AppTheme.primaryColor,
+                size: 20,
+              ),
             ),
             const SizedBox(width: 10),
             Text(
@@ -86,13 +98,21 @@ class _CalendarTabState extends State<CalendarTab> {
             Padding(
               padding: const EdgeInsets.only(right: 16),
               child: ElevatedButton.icon(
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CreateEditTaskPage())),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const CreateEditTaskPage()),
+                ),
                 icon: const Icon(Icons.add_rounded, size: 18),
                 label: const Text('New Task'),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(110, 38),
-                  textStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  textStyle: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 13,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
             ),
@@ -112,9 +132,19 @@ class _CalendarTabState extends State<CalendarTab> {
           final selectedDayTasks = tasksByDate[selectedDayKey] ?? [];
 
           if (isWide) {
-            return _buildWebCalendarLayout(theme, isDark, tasksByDate, selectedDayTasks);
+            return _buildWebCalendarLayout(
+              theme,
+              isDark,
+              tasksByDate,
+              selectedDayTasks,
+            );
           } else {
-            return _buildMobileCalendarLayout(theme, isDark, tasksByDate, selectedDayTasks);
+            return _buildMobileCalendarLayout(
+              theme,
+              isDark,
+              tasksByDate,
+              selectedDayTasks,
+            );
           }
         },
       ),
@@ -122,7 +152,12 @@ class _CalendarTabState extends State<CalendarTab> {
   }
 
   // ─────────── WEB DESKTOP CALENDAR LAYOUT (2 Columns) ────────────
-  Widget _buildWebCalendarLayout(ThemeData theme, bool isDark, Map<String, List<dynamic>> tasksByDate, List<dynamic> selectedDayTasks) {
+  Widget _buildWebCalendarLayout(
+    ThemeData theme,
+    bool isDark,
+    Map<String, List<dynamic>> tasksByDate,
+    List<dynamic> selectedDayTasks,
+  ) {
     final today = DateTime.now();
 
     return Row(
@@ -136,9 +171,15 @@ class _CalendarTabState extends State<CalendarTab> {
               decoration: BoxDecoration(
                 color: isDark ? AppTheme.darkSurface : Colors.white,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder),
+                border: Border.all(
+                  color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+                ),
                 boxShadow: [
-                  BoxShadow(color: Colors.black.withOpacity(isDark ? 0.0 : 0.04), blurRadius: 16, offset: const Offset(0, 4)),
+                  BoxShadow(
+                    color: Colors.black.withOpacity(isDark ? 0.0 : 0.04),
+                    blurRadius: 16,
+                    offset: const Offset(0, 4),
+                  ),
                 ],
               ),
               child: Column(
@@ -151,7 +192,10 @@ class _CalendarTabState extends State<CalendarTab> {
                       children: [
                         Text(
                           DateFormat('MMMM yyyy').format(_focusedMonth),
-                          style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800, fontSize: 20),
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 20,
+                          ),
                         ),
                         Row(
                           children: [
@@ -164,20 +208,30 @@ class _CalendarTabState extends State<CalendarTab> {
                               label: const Text('Today'),
                               style: OutlinedButton.styleFrom(
                                 minimumSize: const Size(80, 36),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
                             ),
                             const SizedBox(width: 8),
                             IconButton(
                               icon: const Icon(Icons.chevron_left_rounded),
                               onPressed: () => setState(() {
-                                _focusedMonth = DateTime(_focusedMonth.year, _focusedMonth.month - 1, 1);
+                                _focusedMonth = DateTime(
+                                  _focusedMonth.year,
+                                  _focusedMonth.month - 1,
+                                  1,
+                                );
                               }),
                             ),
                             IconButton(
                               icon: const Icon(Icons.chevron_right_rounded),
                               onPressed: () => setState(() {
-                                _focusedMonth = DateTime(_focusedMonth.year, _focusedMonth.month + 1, 1);
+                                _focusedMonth = DateTime(
+                                  _focusedMonth.year,
+                                  _focusedMonth.month + 1,
+                                  1,
+                                );
                               }),
                             ),
                           ],
@@ -188,14 +242,36 @@ class _CalendarTabState extends State<CalendarTab> {
 
                   // Day Headers (Sun - Sat)
                   Container(
-                    color: isDark ? AppTheme.darkBg.withOpacity(0.5) : AppTheme.lightBg,
+                    color: isDark
+                        ? AppTheme.darkBg.withOpacity(0.5)
+                        : AppTheme.lightBg,
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Row(
-                      children: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((d) => Expanded(
-                        child: Center(
-                          child: Text(d, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: theme.hintColor)),
-                        ),
-                      )).toList(),
+                      children:
+                          [
+                                'Sunday',
+                                'Monday',
+                                'Tuesday',
+                                'Wednesday',
+                                'Thursday',
+                                'Friday',
+                                'Saturday',
+                              ]
+                              .map(
+                                (d) => Expanded(
+                                  child: Center(
+                                    child: Text(
+                                      d,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700,
+                                        color: theme.hintColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
                     ),
                   ),
 
@@ -206,9 +282,13 @@ class _CalendarTabState extends State<CalendarTab> {
                       childAspectRatio: 1.2,
                       children: _calendarDays.map((day) {
                         final isCurrentMonth = day.month == _focusedMonth.month;
-                        final isToday = DateFormat('yyyy-MM-dd').format(day) == DateFormat('yyyy-MM-dd').format(today);
+                        final isToday =
+                            DateFormat('yyyy-MM-dd').format(day) ==
+                            DateFormat('yyyy-MM-dd').format(today);
                         final dayKey = DateFormat('yyyy-MM-dd').format(day);
-                        final isSelected = dayKey == DateFormat('yyyy-MM-dd').format(_selectedDay);
+                        final isSelected =
+                            dayKey ==
+                            DateFormat('yyyy-MM-dd').format(_selectedDay);
                         final dayTasks = tasksByDate[dayKey] ?? [];
 
                         return InkWell(
@@ -218,11 +298,15 @@ class _CalendarTabState extends State<CalendarTab> {
                             decoration: BoxDecoration(
                               color: isSelected
                                   ? AppTheme.primaryColor.withOpacity(0.08)
-                                  : isDark ? AppTheme.darkSurface : Colors.white,
+                                  : isDark
+                                  ? AppTheme.darkSurface
+                                  : Colors.white,
                               border: Border.all(
                                 color: isSelected
                                     ? AppTheme.primaryColor
-                                    : (isDark ? AppTheme.darkBorder.withOpacity(0.5) : AppTheme.lightBorder),
+                                    : (isDark
+                                          ? AppTheme.darkBorder.withOpacity(0.5)
+                                          : AppTheme.lightBorder),
                                 width: isSelected ? 1.5 : 0.5,
                               ),
                             ),
@@ -230,12 +314,16 @@ class _CalendarTabState extends State<CalendarTab> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      width: 24, height: 24,
+                                      width: 24,
+                                      height: 24,
                                       decoration: BoxDecoration(
-                                        color: isToday ? AppTheme.primaryColor : Colors.transparent,
+                                        color: isToday
+                                            ? AppTheme.primaryColor
+                                            : Colors.transparent,
                                         shape: BoxShape.circle,
                                       ),
                                       child: Center(
@@ -243,26 +331,43 @@ class _CalendarTabState extends State<CalendarTab> {
                                           '${day.day}',
                                           style: TextStyle(
                                             fontSize: 12,
-                                            fontWeight: isToday ? FontWeight.w900 : FontWeight.w600,
+                                            fontWeight: isToday
+                                                ? FontWeight.w900
+                                                : FontWeight.w600,
                                             color: isToday
                                                 ? Colors.white
                                                 : !isCurrentMonth
-                                                    ? theme.hintColor.withOpacity(0.3)
-                                                    : theme.textTheme.bodyMedium?.color,
+                                                ? theme.hintColor.withOpacity(
+                                                    0.3,
+                                                  )
+                                                : theme
+                                                      .textTheme
+                                                      .bodyMedium
+                                                      ?.color,
                                           ),
                                         ),
                                       ),
                                     ),
                                     if (dayTasks.isNotEmpty)
                                       Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 5,
+                                          vertical: 2,
+                                        ),
                                         decoration: BoxDecoration(
-                                          color: AppTheme.primaryColor.withOpacity(0.12),
-                                          borderRadius: BorderRadius.circular(6),
+                                          color: AppTheme.primaryColor
+                                              .withOpacity(0.12),
+                                          borderRadius: BorderRadius.circular(
+                                            6,
+                                          ),
                                         ),
                                         child: Text(
                                           '${dayTasks.length}',
-                                          style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.primaryColor),
+                                          style: const TextStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppTheme.primaryColor,
+                                          ),
                                         ),
                                       ),
                                   ],
@@ -271,25 +376,47 @@ class _CalendarTabState extends State<CalendarTab> {
                                 Expanded(
                                   child: ListView(
                                     shrinkWrap: true,
-                                    children: dayTasks.take(2).map((t) => Container(
-                                      margin: const EdgeInsets.only(bottom: 3),
-                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                                      decoration: BoxDecoration(
-                                        color: _priorityColor(t.priority).withOpacity(0.15),
-                                        borderRadius: BorderRadius.circular(6),
-                                        border: Border(left: BorderSide(color: _priorityColor(t.priority), width: 3)),
-                                      ),
-                                      child: Text(
-                                        t.title,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize: 10.5,
-                                          fontWeight: FontWeight.w700,
-                                          color: isDark ? Colors.white : AppTheme.lightTextPrimary,
-                                        ),
-                                      ),
-                                    )).toList(),
+                                    children: dayTasks
+                                        .take(2)
+                                        .map(
+                                          (t) => Container(
+                                            margin: const EdgeInsets.only(
+                                              bottom: 3,
+                                            ),
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 6,
+                                              vertical: 3,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: _priorityColor(
+                                                t.priority,
+                                              ).withOpacity(0.15),
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
+                                              border: Border(
+                                                left: BorderSide(
+                                                  color: _priorityColor(
+                                                    t.priority,
+                                                  ),
+                                                  width: 3,
+                                                ),
+                                              ),
+                                            ),
+                                            child: Text(
+                                              t.title,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 10.5,
+                                                fontWeight: FontWeight.w700,
+                                                color: isDark
+                                                    ? Colors.white
+                                                    : AppTheme.lightTextPrimary,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
                                   ),
                                 ),
                               ],
@@ -315,9 +442,15 @@ class _CalendarTabState extends State<CalendarTab> {
               decoration: BoxDecoration(
                 color: isDark ? AppTheme.darkSurface : Colors.white,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder),
+                border: Border.all(
+                  color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+                ),
                 boxShadow: [
-                  BoxShadow(color: Colors.black.withOpacity(isDark ? 0.0 : 0.04), blurRadius: 16, offset: const Offset(0, 4)),
+                  BoxShadow(
+                    color: Colors.black.withOpacity(isDark ? 0.0 : 0.04),
+                    blurRadius: 16,
+                    offset: const Offset(0, 4),
+                  ),
                 ],
               ),
               child: Column(
@@ -329,22 +462,40 @@ class _CalendarTabState extends State<CalendarTab> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Day Agenda', style: theme.textTheme.bodyMedium?.copyWith(fontSize: 12, fontWeight: FontWeight.w600)),
                           Text(
-                            DateFormat('EEEE, MMM d, yyyy').format(_selectedDay),
-                            style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800, fontSize: 16),
+                            'Day Agenda',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            DateFormat(
+                              'EEEE, MMM d, yyyy',
+                            ).format(_selectedDay),
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 16,
+                            ),
                           ),
                         ],
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: AppTheme.primaryColor.withOpacity(0.12),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
                           '${selectedDayTasks.length} task${selectedDayTasks.length != 1 ? 's' : ''}',
-                          style: const TextStyle(color: AppTheme.primaryColor, fontWeight: FontWeight.bold, fontSize: 12),
+                          style: const TextStyle(
+                            color: AppTheme.primaryColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                     ],
@@ -358,11 +509,24 @@ class _CalendarTabState extends State<CalendarTab> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text('📋', style: TextStyle(fontSize: 40)),
+                                const Text(
+                                  '📋',
+                                  style: TextStyle(fontSize: 40),
+                                ),
                                 const SizedBox(height: 12),
-                                Text('No tasks on this day', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800)),
+                                Text(
+                                  'No tasks on this day',
+                                  style: theme.textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
                                 const SizedBox(height: 4),
-                                Text('Select another day or add a task.', style: theme.textTheme.bodyMedium?.copyWith(fontSize: 12)),
+                                Text(
+                                  'Select another day or add a task.',
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    fontSize: 12,
+                                  ),
+                                ),
                               ],
                             ),
                           )
@@ -370,30 +534,71 @@ class _CalendarTabState extends State<CalendarTab> {
                             itemCount: selectedDayTasks.length,
                             itemBuilder: (_, i) {
                               final task = selectedDayTasks[i];
-                              final priorityColor = _priorityColor(task.priority);
+                              final priorityColor = _priorityColor(
+                                task.priority,
+                              );
 
                               return Container(
                                 margin: const EdgeInsets.only(bottom: 10),
                                 decoration: BoxDecoration(
-                                  color: isDark ? AppTheme.darkBg : AppTheme.lightBg,
+                                  color: isDark
+                                      ? AppTheme.darkBg
+                                      : AppTheme.lightBg,
                                   borderRadius: BorderRadius.circular(14),
-                                  border: Border.all(color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder),
+                                  border: Border.all(
+                                    color: isDark
+                                        ? AppTheme.darkBorder
+                                        : AppTheme.lightBorder,
+                                  ),
                                 ),
                                 child: ListTile(
-                                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TaskDetailsPage(task: task))),
-                                  leading: Container(
-                                    width: 10, height: 10,
-                                    decoration: BoxDecoration(color: priorityColor, shape: BoxShape.circle),
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          TaskDetailsPage(task: task),
+                                    ),
                                   ),
-                                  title: Text(task.title, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800, fontSize: 14)),
-                                  subtitle: Text(task.description, maxLines: 1, overflow: TextOverflow.ellipsis, style: theme.textTheme.bodyMedium?.copyWith(fontSize: 12)),
+                                  leading: Container(
+                                    width: 10,
+                                    height: 10,
+                                    decoration: BoxDecoration(
+                                      color: priorityColor,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  title: Text(
+                                    task.title,
+                                    style: theme.textTheme.titleSmall?.copyWith(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    task.description,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      fontSize: 12,
+                                    ),
+                                  ),
                                   trailing: Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 4,
+                                    ),
                                     decoration: BoxDecoration(
                                       color: priorityColor.withOpacity(0.12),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
-                                    child: Text('${_statusEmoji(task.status)} ${task.status}', style: TextStyle(color: priorityColor, fontSize: 10.5, fontWeight: FontWeight.w800)),
+                                    child: Text(
+                                      '${_statusEmoji(task.status)} ${task.status}',
+                                      style: TextStyle(
+                                        color: priorityColor,
+                                        fontSize: 10.5,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               );
@@ -410,7 +615,12 @@ class _CalendarTabState extends State<CalendarTab> {
   }
 
   // ─────────── MOBILE CALENDAR LAYOUT ────────────
-  Widget _buildMobileCalendarLayout(ThemeData theme, bool isDark, Map<String, List<dynamic>> tasksByDate, List<dynamic> selectedDayTasks) {
+  Widget _buildMobileCalendarLayout(
+    ThemeData theme,
+    bool isDark,
+    Map<String, List<dynamic>> tasksByDate,
+    List<dynamic> selectedDayTasks,
+  ) {
     final today = DateTime.now();
 
     return Column(
@@ -422,7 +632,9 @@ class _CalendarTabState extends State<CalendarTab> {
           decoration: BoxDecoration(
             color: isDark ? AppTheme.darkSurface : Colors.white,
             borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder),
+            border: Border.all(
+              color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+            ),
           ),
           child: Column(
             children: [
@@ -431,7 +643,10 @@ class _CalendarTabState extends State<CalendarTab> {
                 children: [
                   Text(
                     DateFormat('MMMM yyyy').format(_focusedMonth),
-                    style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800, fontSize: 16),
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 16,
+                    ),
                   ),
                   Row(
                     children: [
@@ -440,7 +655,11 @@ class _CalendarTabState extends State<CalendarTab> {
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
                         onPressed: () => setState(() {
-                          _focusedMonth = DateTime(_focusedMonth.year, _focusedMonth.month - 1, 1);
+                          _focusedMonth = DateTime(
+                            _focusedMonth.year,
+                            _focusedMonth.month - 1,
+                            1,
+                          );
                         }),
                       ),
                       const SizedBox(width: 12),
@@ -449,7 +668,11 @@ class _CalendarTabState extends State<CalendarTab> {
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
                         onPressed: () => setState(() {
-                          _focusedMonth = DateTime(_focusedMonth.year, _focusedMonth.month + 1, 1);
+                          _focusedMonth = DateTime(
+                            _focusedMonth.year,
+                            _focusedMonth.month + 1,
+                            1,
+                          );
                         }),
                       ),
                     ],
@@ -458,11 +681,22 @@ class _CalendarTabState extends State<CalendarTab> {
               ),
               const SizedBox(height: 10),
               Row(
-                children: ['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d) => Expanded(
-                  child: Center(
-                    child: Text(d, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: theme.hintColor)),
-                  ),
-                )).toList(),
+                children: ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+                    .map(
+                      (d) => Expanded(
+                        child: Center(
+                          child: Text(
+                            d,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w800,
+                              color: theme.hintColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                    .toList(),
               ),
               const SizedBox(height: 6),
               GridView.count(
@@ -472,9 +706,12 @@ class _CalendarTabState extends State<CalendarTab> {
                 childAspectRatio: 1.15,
                 children: _calendarDays.map((day) {
                   final isCurrentMonth = day.month == _focusedMonth.month;
-                  final isToday = DateFormat('yyyy-MM-dd').format(day) == DateFormat('yyyy-MM-dd').format(today);
+                  final isToday =
+                      DateFormat('yyyy-MM-dd').format(day) ==
+                      DateFormat('yyyy-MM-dd').format(today);
                   final dayKey = DateFormat('yyyy-MM-dd').format(day);
-                  final isSelected = dayKey == DateFormat('yyyy-MM-dd').format(_selectedDay);
+                  final isSelected =
+                      dayKey == DateFormat('yyyy-MM-dd').format(_selectedDay);
                   final hasTasks = tasksByDate.containsKey(dayKey);
                   final dayTasks = tasksByDate[dayKey] ?? [];
 
@@ -484,13 +721,14 @@ class _CalendarTabState extends State<CalendarTab> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          width: 30, height: 30,
+                          width: 30,
+                          height: 30,
                           decoration: BoxDecoration(
                             color: isSelected
                                 ? AppTheme.primaryColor
                                 : isToday
-                                    ? AppTheme.primaryColor.withOpacity(0.15)
-                                    : Colors.transparent,
+                                ? AppTheme.primaryColor.withOpacity(0.15)
+                                : Colors.transparent,
                             shape: BoxShape.circle,
                           ),
                           child: Center(
@@ -498,15 +736,17 @@ class _CalendarTabState extends State<CalendarTab> {
                               '${day.day}',
                               style: TextStyle(
                                 fontSize: 12.5,
-                                fontWeight: isToday || isSelected ? FontWeight.w900 : FontWeight.w500,
+                                fontWeight: isToday || isSelected
+                                    ? FontWeight.w900
+                                    : FontWeight.w500,
                                 color: isSelected
                                     ? Colors.white
                                     : !isCurrentMonth
-                                        ? theme.hintColor.withOpacity(0.3)
-                                        : isToday
-                                            ? AppTheme.primaryColor
-                                            : theme.textTheme.bodyMedium?.color,
-                               ),
+                                    ? theme.hintColor.withOpacity(0.3)
+                                    : isToday
+                                    ? AppTheme.primaryColor
+                                    : theme.textTheme.bodyMedium?.color,
+                              ),
                             ),
                           ),
                         ),
@@ -514,13 +754,22 @@ class _CalendarTabState extends State<CalendarTab> {
                           const SizedBox(height: 2),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: dayTasks.take(3).map((t) => Container(
-                              width: 4, height: 4, margin: const EdgeInsets.symmetric(horizontal: 1),
-                              decoration: BoxDecoration(
-                                color: _priorityColor(t.priority),
-                                shape: BoxShape.circle,
-                              ),
-                            )).toList(),
+                            children: dayTasks
+                                .take(3)
+                                .map(
+                                  (t) => Container(
+                                    width: 4,
+                                    height: 4,
+                                    margin: const EdgeInsets.symmetric(
+                                      horizontal: 1,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: _priorityColor(t.priority),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                )
+                                .toList(),
                           ),
                         ],
                       ],
@@ -538,7 +787,10 @@ class _CalendarTabState extends State<CalendarTab> {
             children: [
               Text(
                 DateFormat('EEEE, MMM d').format(_selectedDay),
-                style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800, fontSize: 14.5),
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 14.5,
+                ),
               ),
               const SizedBox(width: 8),
               Container(
@@ -549,7 +801,11 @@ class _CalendarTabState extends State<CalendarTab> {
                 ),
                 child: Text(
                   '${selectedDayTasks.length} task${selectedDayTasks.length != 1 ? 's' : ''}',
-                  style: const TextStyle(color: AppTheme.primaryColor, fontSize: 11, fontWeight: FontWeight.w800),
+                  style: const TextStyle(
+                    color: AppTheme.primaryColor,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
             ],
@@ -564,7 +820,13 @@ class _CalendarTabState extends State<CalendarTab> {
                     children: [
                       const Text('📅', style: TextStyle(fontSize: 36)),
                       const SizedBox(height: 10),
-                      Text('No tasks scheduled for this day', style: theme.textTheme.bodyMedium?.copyWith(fontSize: 13, fontWeight: FontWeight.w600)),
+                      Text(
+                        'No tasks scheduled for this day',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ],
                   ),
                 )
@@ -580,23 +842,59 @@ class _CalendarTabState extends State<CalendarTab> {
                       decoration: BoxDecoration(
                         color: isDark ? AppTheme.darkSurface : Colors.white,
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder),
+                        border: Border.all(
+                          color: isDark
+                              ? AppTheme.darkBorder
+                              : AppTheme.lightBorder,
+                        ),
                       ),
                       child: ListTile(
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TaskDetailsPage(task: task))),
-                        leading: Container(
-                          width: 10, height: 10,
-                          decoration: BoxDecoration(color: priorityColor, shape: BoxShape.circle),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => TaskDetailsPage(task: task),
+                          ),
                         ),
-                        title: Text(task.title, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800, fontSize: 14)),
-                        subtitle: Text(task.description, maxLines: 1, overflow: TextOverflow.ellipsis, style: theme.textTheme.bodyMedium?.copyWith(fontSize: 12)),
+                        leading: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            color: priorityColor,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        title: Text(
+                          task.title,
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 14,
+                          ),
+                        ),
+                        subtitle: Text(
+                          task.description,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontSize: 12,
+                          ),
+                        ),
                         trailing: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: priorityColor.withOpacity(0.12),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Text('${_statusEmoji(task.status)} ${task.status}', style: TextStyle(color: priorityColor, fontSize: 10.5, fontWeight: FontWeight.w800)),
+                          child: Text(
+                            '${_statusEmoji(task.status)} ${task.status}',
+                            style: TextStyle(
+                              color: priorityColor,
+                              fontSize: 10.5,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
                         ),
                       ),
                     );

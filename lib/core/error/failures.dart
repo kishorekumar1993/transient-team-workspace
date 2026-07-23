@@ -29,8 +29,10 @@ abstract class Result<S, F extends Failure> {
   bool get isSuccess => this is Success<S, F>;
   bool get isFailure => this is Error<S, F>;
 
-  S? get successValue => this is Success<S, F> ? (this as Success<S, F>).value : null;
-  F? get failureValue => this is Error<S, F> ? (this as Error<S, F>).failure : null;
+  S? get successValue =>
+      this is Success<S, F> ? (this as Success<S, F>).value : null;
+  F? get failureValue =>
+      this is Error<S, F> ? (this as Error<S, F>).failure : null;
 
   T fold<T>(T Function(S success) onSuccess, T Function(F failure) onFailure) {
     if (this is Success<S, F>) {

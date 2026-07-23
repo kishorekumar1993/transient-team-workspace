@@ -43,32 +43,59 @@ class TaskRepositoryImpl implements TaskRepository {
         );
 
         // Cache the first page of results to show offline later
-        if (page == 1 && search.isEmpty && (status == 'All' || status.isEmpty) && (priority == 'All' || priority.isEmpty) && startDate == null && endDate == null) {
+        if (page == 1 &&
+            search.isEmpty &&
+            (status == 'All' || status.isEmpty) &&
+            (priority == 'All' || priority.isEmpty) &&
+            startDate == null &&
+            endDate == null) {
           await localDataSource.cacheTasks(remoteResponse.tasks);
         }
 
-        return Success(PaginatedTasks(
-          tasks: remoteResponse.tasks,
-          hasMore: remoteResponse.hasMore,
-        ));
+        return Success(
+          PaginatedTasks(
+            tasks: remoteResponse.tasks,
+            hasMore: remoteResponse.hasMore,
+          ),
+        );
       } on ServerException catch (e) {
         // If remote fails, fallback to local cache ONLY on first page
         if (page == 1) {
-          return await _getLocalCachedTasksResult(search, status, priority, startDate, endDate);
+          return await _getLocalCachedTasksResult(
+            search,
+            status,
+            priority,
+            startDate,
+            endDate,
+          );
         }
         return Error(ServerFailure(e.message));
       } catch (e) {
         if (page == 1) {
-          return await _getLocalCachedTasksResult(search, status, priority, startDate, endDate);
+          return await _getLocalCachedTasksResult(
+            search,
+            status,
+            priority,
+            startDate,
+            endDate,
+          );
         }
         return Error(ServerFailure(e.toString()));
       }
     } else {
       // Offline mode: load from cache
       if (page == 1) {
-        return await _getLocalCachedTasksResult(search, status, priority, startDate, endDate);
+        return await _getLocalCachedTasksResult(
+          search,
+          status,
+          priority,
+          startDate,
+          endDate,
+        );
       }
-      return const Error(NetworkFailure('No internet connection to load more pages'));
+      return const Error(
+        NetworkFailure('No internet connection to load more pages'),
+      );
     }
   }
 
@@ -81,14 +108,15 @@ class TaskRepositoryImpl implements TaskRepository {
   ) async {
     try {
       final cachedList = await localDataSource.getCachedTasks();
-      
+
       // Perform offline search & filtering locally so that search/filter functionality still works when offline!
       List<TaskModel> filtered = List.from(cachedList);
 
       if (search.isNotEmpty) {
         final query = search.toLowerCase();
         filtered = filtered.where((t) {
-          return t.title.toLowerCase().contains(query) || t.description.toLowerCase().contains(query);
+          return t.title.toLowerCase().contains(query) ||
+              t.description.toLowerCase().contains(query);
         }).toList();
       }
 
@@ -104,18 +132,23 @@ class TaskRepositoryImpl implements TaskRepository {
       if (startDate != null && endDate != null) {
         filtered = filtered.where((t) {
           // Ensure dueDate is between startDate and endDate
-          return t.dueDate.isAfter(startDate.subtract(const Duration(seconds: 1))) && 
-                 t.dueDate.isBefore(endDate.add(const Duration(seconds: 1)));
+          return t.dueDate.isAfter(
+                startDate.subtract(const Duration(seconds: 1)),
+              ) &&
+              t.dueDate.isBefore(endDate.add(const Duration(seconds: 1)));
         }).toList();
       }
 
       // Sort by createdAt descending
       filtered.sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
-      return Success(PaginatedTasks(
-        tasks: filtered,
-        hasMore: false, // In offline mode we don't have pagination pages, we return the entire matching local set
-      ));
+      return Success(
+        PaginatedTasks(
+          tasks: filtered,
+          hasMore:
+              false, // In offline mode we don't have pagination pages, we return the entire matching local set
+        ),
+      );
     } on CacheException catch (e) {
       return Error(CacheFailure(e.message));
     } catch (e) {
@@ -131,7 +164,7 @@ class TaskRepositoryImpl implements TaskRepository {
     if (isOnline) {
       try {
         final createdTask = await remoteDataSource.createTask(taskModel);
-        
+
         // Update local cache by inserting the new task at the top
         await _insertTaskIntoLocalCache(createdTask);
 
@@ -146,11 +179,15 @@ class TaskRepositoryImpl implements TaskRepository {
     }
   }
 
-  Future<Result<TaskEntity, Failure>> _queueOfflineCreate(TaskModel taskModel) async {
+  Future<Result<TaskEntity, Failure>> _queueOfflineCreate(
+    TaskModel taskModel,
+  ) async {
     try {
       await localDataSource.queueOfflineAction('CREATE', taskModel);
       await _insertTaskIntoLocalCache(taskModel);
-      return Success(taskModel); // Return success so that it reflects immediately in the UI
+      return Success(
+        taskModel,
+      ); // Return success so that it reflects immediately in the UI
     } on CacheException catch (e) {
       return Error(CacheFailure(e.message));
     } catch (e) {
@@ -174,7 +211,7 @@ class TaskRepositoryImpl implements TaskRepository {
     if (isOnline) {
       try {
         final updatedTask = await remoteDataSource.updateTask(taskModel);
-        
+
         // Update local cache
         await _updateTaskInLocalCache(updatedTask);
 
@@ -189,7 +226,9 @@ class TaskRepositoryImpl implements TaskRepository {
     }
   }
 
-  Future<Result<TaskEntity, Failure>> _queueOfflineUpdate(TaskModel taskModel) async {
+  Future<Result<TaskEntity, Failure>> _queueOfflineUpdate(
+    TaskModel taskModel,
+  ) async {
     try {
       await localDataSource.queueOfflineAction('UPDATE', taskModel);
       await _updateTaskInLocalCache(taskModel);
@@ -216,7 +255,9 @@ class TaskRepositoryImpl implements TaskRepository {
   Future<Result<void, Failure>> syncOfflineTasks() async {
     final isOnline = await networkInfo.isConnected;
     if (!isOnline) {
-      return const Error(NetworkFailure('Device is offline. Cannot sync tasks.'));
+      return const Error(
+        NetworkFailure('Device is offline. Cannot sync tasks.'),
+      );
     }
 
     try {

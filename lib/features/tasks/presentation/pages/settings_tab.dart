@@ -28,7 +28,10 @@ class _SettingsTabState extends State<SettingsTab> {
         backgroundColor: isDark ? AppTheme.darkSurface : Colors.white,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: const Text('Settings', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20)),
+        title: const Text(
+          'Settings',
+          style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -39,38 +42,72 @@ class _SettingsTabState extends State<SettingsTab> {
             decoration: BoxDecoration(
               gradient: const LinearGradient(
                 colors: [AppTheme.primaryColor, Color(0xFF7C3AED)],
-                begin: Alignment.topLeft, end: Alignment.bottomRight,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Row(
               children: [
                 Container(
-                  width: 56, height: 56,
+                  width: 56,
+                  height: 56,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.25),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.person_rounded, color: Colors.white, size: 30),
+                  child: const Icon(
+                    Icons.person_rounded,
+                    color: Colors.white,
+                    size: 30,
+                  ),
                 ),
                 const SizedBox(width: 16),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: const [
-                  Text('Kishore Kumar',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 17)),
-                  SizedBox(height: 3),
-                  Text('kishore@email.com',
-                    style: TextStyle(color: Colors.white70, fontSize: 13)),
-                  SizedBox(height: 4),
-                  Text('Free Plan', style: TextStyle(color: Colors.white54, fontSize: 11, fontWeight: FontWeight.w500)),
-                ]),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'Kishore Kumar',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 17,
+                      ),
+                    ),
+                    SizedBox(height: 3),
+                    Text(
+                      'kishore@email.com',
+                      style: TextStyle(color: Colors.white70, fontSize: 13),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      'Free Plan',
+                      style: TextStyle(
+                        color: Colors.white54,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
                 const Spacer(),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Text('Edit', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12)),
+                  child: const Text(
+                    'Edit',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -81,9 +118,12 @@ class _SettingsTabState extends State<SettingsTab> {
           const SizedBox(height: 8),
           _settingsGroup(theme, isDark, [
             _settingsSwitch(
-              theme: theme, isDark: isDark,
+              theme: theme,
+              isDark: isDark,
               icon: isDark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
-              iconColor: isDark ? const Color(0xFFA855F7) : const Color(0xFFF59E0B),
+              iconColor: isDark
+                  ? const Color(0xFFA855F7)
+                  : const Color(0xFFF59E0B),
               title: 'Dark Mode',
               subtitle: isDark ? 'Dark theme enabled' : 'Light theme enabled',
               value: isDark,
@@ -93,19 +133,29 @@ class _SettingsTabState extends State<SettingsTab> {
             ),
             _settingsDivider(isDark),
             _settingsSwitch(
-              theme: theme, isDark: isDark,
-              icon: Icons.bug_report_rounded, iconColor: AppTheme.priorityHigh,
+              theme: theme,
+              isDark: isDark,
+              icon: Icons.bug_report_rounded,
+              iconColor: AppTheme.priorityHigh,
               title: 'Simulate API Errors',
               subtitle: 'Toggle mock server error responses',
               value: _simulateError,
               onChanged: (v) {
                 setState(() => _simulateError = v);
                 MockTaskApiInterceptor.shouldSimulateError = v;
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(v ? 'Mock API errors enabled' : 'Mock API errors disabled'),
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                ));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      v
+                          ? 'Mock API errors enabled'
+                          : 'Mock API errors disabled',
+                    ),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                );
               },
             ),
           ]),
@@ -115,22 +165,31 @@ class _SettingsTabState extends State<SettingsTab> {
           const SizedBox(height: 8),
           _settingsGroup(theme, isDark, [
             _settingsTile(
-              theme: theme, isDark: isDark,
-              icon: Icons.info_outline_rounded, iconColor: AppTheme.primaryColor,
-              title: 'App Version', subtitle: '1.0.0 (build 1)',
+              theme: theme,
+              isDark: isDark,
+              icon: Icons.info_outline_rounded,
+              iconColor: AppTheme.primaryColor,
+              title: 'App Version',
+              subtitle: '1.0.0 (build 1)',
               trailing: const SizedBox(),
             ),
             _settingsDivider(isDark),
             _settingsTile(
-              theme: theme, isDark: isDark,
-              icon: Icons.policy_rounded, iconColor: const Color(0xFF6366F1),
-              title: 'Privacy Policy', subtitle: 'Read our privacy policy',
+              theme: theme,
+              isDark: isDark,
+              icon: Icons.policy_rounded,
+              iconColor: const Color(0xFF6366F1),
+              title: 'Privacy Policy',
+              subtitle: 'Read our privacy policy',
             ),
             _settingsDivider(isDark),
             _settingsTile(
-              theme: theme, isDark: isDark,
-              icon: Icons.description_rounded, iconColor: const Color(0xFF0EA5E9),
-              title: 'Terms of Service', subtitle: 'View terms and conditions',
+              theme: theme,
+              isDark: isDark,
+              icon: Icons.description_rounded,
+              iconColor: const Color(0xFF0EA5E9),
+              title: 'Terms of Service',
+              subtitle: 'View terms and conditions',
             ),
           ]),
 
@@ -144,22 +203,40 @@ class _SettingsTabState extends State<SettingsTab> {
               decoration: BoxDecoration(
                 color: AppTheme.priorityHigh.withOpacity(0.08),
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: AppTheme.priorityHigh.withOpacity(0.25)),
+                border: Border.all(
+                  color: AppTheme.priorityHigh.withOpacity(0.25),
+                ),
               ),
               child: Row(
                 children: [
                   Container(
-                    width: 36, height: 36,
+                    width: 36,
+                    height: 36,
                     decoration: BoxDecoration(
                       color: AppTheme.priorityHigh.withOpacity(0.12),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Icon(Icons.logout_rounded, color: AppTheme.priorityHigh, size: 20),
+                    child: const Icon(
+                      Icons.logout_rounded,
+                      color: AppTheme.priorityHigh,
+                      size: 20,
+                    ),
                   ),
                   const SizedBox(width: 14),
-                  const Text('Logout', style: TextStyle(color: AppTheme.priorityHigh, fontWeight: FontWeight.w700, fontSize: 15)),
+                  const Text(
+                    'Logout',
+                    style: TextStyle(
+                      color: AppTheme.priorityHigh,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15,
+                    ),
+                  ),
                   const Spacer(),
-                  const Icon(Icons.chevron_right_rounded, color: AppTheme.priorityHigh, size: 20),
+                  const Icon(
+                    Icons.chevron_right_rounded,
+                    color: AppTheme.priorityHigh,
+                    size: 20,
+                  ),
                 ],
               ),
             ),
@@ -171,9 +248,14 @@ class _SettingsTabState extends State<SettingsTab> {
   }
 
   Widget _sectionHeader(ThemeData theme, String title) {
-    return Text(title.toUpperCase(),
+    return Text(
+      title.toUpperCase(),
       style: theme.textTheme.bodyMedium?.copyWith(
-        fontSize: 11.5, fontWeight: FontWeight.w800, letterSpacing: 0.8));
+        fontSize: 11.5,
+        fontWeight: FontWeight.w800,
+        letterSpacing: 0.8,
+      ),
+    );
   }
 
   Widget _settingsGroup(ThemeData theme, bool isDark, List<Widget> children) {
@@ -181,7 +263,9 @@ class _SettingsTabState extends State<SettingsTab> {
       decoration: BoxDecoration(
         color: isDark ? AppTheme.darkSurface : Colors.white,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder),
+        border: Border.all(
+          color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+        ),
       ),
       child: Column(children: children),
     );
@@ -189,15 +273,20 @@ class _SettingsTabState extends State<SettingsTab> {
 
   Widget _settingsDivider(bool isDark) {
     return Divider(
-      height: 1, indent: 60, endIndent: 0,
+      height: 1,
+      indent: 60,
+      endIndent: 0,
       color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
     );
   }
 
   Widget _settingsTile({
-    required ThemeData theme, required bool isDark,
-    required IconData icon, required Color iconColor,
-    required String title, required String subtitle,
+    required ThemeData theme,
+    required bool isDark,
+    required IconData icon,
+    required Color iconColor,
+    required String title,
+    required String subtitle,
     Widget? trailing,
   }) {
     return InkWell(
@@ -208,7 +297,8 @@ class _SettingsTabState extends State<SettingsTab> {
         child: Row(
           children: [
             Container(
-              width: 36, height: 36,
+              width: 36,
+              height: 36,
               decoration: BoxDecoration(
                 color: iconColor.withOpacity(0.12),
                 borderRadius: BorderRadius.circular(10),
@@ -217,12 +307,29 @@ class _SettingsTabState extends State<SettingsTab> {
             ),
             const SizedBox(width: 14),
             Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(title, style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600, fontSize: 14)),
-                Text(subtitle, style: theme.textTheme.bodyMedium?.copyWith(fontSize: 12)),
-              ]),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    subtitle,
+                    style: theme.textTheme.bodyMedium?.copyWith(fontSize: 12),
+                  ),
+                ],
+              ),
             ),
-            trailing ?? Icon(Icons.chevron_right_rounded, color: theme.hintColor, size: 18),
+            trailing ??
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: theme.hintColor,
+                  size: 18,
+                ),
           ],
         ),
       ),
@@ -230,17 +337,22 @@ class _SettingsTabState extends State<SettingsTab> {
   }
 
   Widget _settingsSwitch({
-    required ThemeData theme, required bool isDark,
-    required IconData icon, required Color iconColor,
-    required String title, required String subtitle,
-    required bool value, required Function(bool) onChanged,
+    required ThemeData theme,
+    required bool isDark,
+    required IconData icon,
+    required Color iconColor,
+    required String title,
+    required String subtitle,
+    required bool value,
+    required Function(bool) onChanged,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       child: Row(
         children: [
           Container(
-            width: 36, height: 36,
+            width: 36,
+            height: 36,
             decoration: BoxDecoration(
               color: iconColor.withOpacity(0.12),
               borderRadius: BorderRadius.circular(10),
@@ -249,10 +361,22 @@ class _SettingsTabState extends State<SettingsTab> {
           ),
           const SizedBox(width: 14),
           Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(title, style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600, fontSize: 14)),
-              Text(subtitle, style: theme.textTheme.bodyMedium?.copyWith(fontSize: 12)),
-            ]),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
+                Text(
+                  subtitle,
+                  style: theme.textTheme.bodyMedium?.copyWith(fontSize: 12),
+                ),
+              ],
+            ),
           ),
           Switch(
             value: value,
@@ -269,7 +393,10 @@ class _SettingsTabState extends State<SettingsTab> {
       context: context,
       builder: (_) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('Logout', style: TextStyle(fontWeight: FontWeight.w800)),
+        title: const Text(
+          'Logout',
+          style: TextStyle(fontWeight: FontWeight.w800),
+        ),
         content: const Text('Are you sure you want to logout of your account?'),
         actions: [
           TextButton(

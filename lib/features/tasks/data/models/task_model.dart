@@ -18,10 +18,13 @@ class TaskModel extends TaskEntity {
       title: json['title'] as String? ?? '',
       description: json['description'] as String? ?? '',
       priority: json['priority'] as String? ?? 'Medium',
-      dueDate: DateTime.tryParse(json['dueDate'] as String? ?? '') ?? DateTime.now(),
+      dueDate:
+          DateTime.tryParse(json['dueDate'] as String? ?? '') ?? DateTime.now(),
       status: json['status'] as String? ?? 'Pending',
       assignedUser: json['assignedUser'] as String? ?? 'Unassigned',
-      createdAt: DateTime.tryParse(json['createdAt'] as String? ?? '') ?? DateTime.now(),
+      createdAt:
+          DateTime.tryParse(json['createdAt'] as String? ?? '') ??
+          DateTime.now(),
     );
   }
 

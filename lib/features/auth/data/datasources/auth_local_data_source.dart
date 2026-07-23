@@ -28,7 +28,10 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<void> cacheUser(UserModel user) async {
-    final success = await sharedPreferences.setString(_cachedUserKey, jsonEncode(user.toJson()));
+    final success = await sharedPreferences.setString(
+      _cachedUserKey,
+      jsonEncode(user.toJson()),
+    );
     if (!success) {
       throw const CacheException('Failed to cache user session');
     }

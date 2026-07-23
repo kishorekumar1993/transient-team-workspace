@@ -23,7 +23,10 @@ class MockAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<Result<UserEntity, Failure>> login({required String email, required String password}) async {
+  Future<Result<UserEntity, Failure>> login({
+    required String email,
+    required String password,
+  }) async {
     if (shouldFail) return Error(AuthFailure(failMessage));
     final user = UserEntity(id: '123', email: email);
     mockUser = user;
@@ -31,7 +34,10 @@ class MockAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<Result<UserEntity, Failure>> signUp({required String email, required String password}) async {
+  Future<Result<UserEntity, Failure>> signUp({
+    required String email,
+    required String password,
+  }) async {
     if (shouldFail) return Error(AuthFailure(failMessage));
     final user = UserEntity(id: '123', email: email);
     mockUser = user;
@@ -62,7 +68,7 @@ void main() {
     loginUseCase = LoginUseCase(mockRepository);
     signUpUseCase = SignUpUseCase(mockRepository);
     logoutUseCase = LogoutUseCase(mockRepository);
-    
+
     authBloc = AuthBloc(
       getCurrentUserUseCase: getCurrentUserUseCase,
       loginUseCase: loginUseCase,
@@ -89,7 +95,11 @@ void main() {
       act: (bloc) => bloc.add(AuthCheckRequested()),
       expect: () => [
         isA<AuthLoading>(),
-        isA<Authenticated>().having((state) => state.user.email, 'email', tUser.email),
+        isA<Authenticated>().having(
+          (state) => state.user.email,
+          'email',
+          tUser.email,
+        ),
       ],
     );
 
@@ -100,10 +110,7 @@ void main() {
         return authBloc;
       },
       act: (bloc) => bloc.add(AuthCheckRequested()),
-      expect: () => [
-        isA<AuthLoading>(),
-        isA<Unauthenticated>(),
-      ],
+      expect: () => [isA<AuthLoading>(), isA<Unauthenticated>()],
     );
   });
 
@@ -111,10 +118,19 @@ void main() {
     blocTest<AuthBloc, AuthState>(
       'emits [AuthLoading, Authenticated] when login is successful',
       build: () => authBloc,
-      act: (bloc) => bloc.add(const AuthLoginSubmitted(email: 'test@workspace.com', password: 'password')),
+      act: (bloc) => bloc.add(
+        const AuthLoginSubmitted(
+          email: 'test@workspace.com',
+          password: 'password',
+        ),
+      ),
       expect: () => [
         isA<AuthLoading>(),
-        isA<Authenticated>().having((state) => state.user.email, 'email', 'test@workspace.com'),
+        isA<Authenticated>().having(
+          (state) => state.user.email,
+          'email',
+          'test@workspace.com',
+        ),
       ],
     );
 
@@ -125,10 +141,19 @@ void main() {
         mockRepository.failMessage = 'Invalid credentials';
         return authBloc;
       },
-      act: (bloc) => bloc.add(const AuthLoginSubmitted(email: 'test@workspace.com', password: 'password')),
+      act: (bloc) => bloc.add(
+        const AuthLoginSubmitted(
+          email: 'test@workspace.com',
+          password: 'password',
+        ),
+      ),
       expect: () => [
         isA<AuthLoading>(),
-        isA<AuthError>().having((state) => state.message, 'message', 'Invalid credentials'),
+        isA<AuthError>().having(
+          (state) => state.message,
+          'message',
+          'Invalid credentials',
+        ),
       ],
     );
   });
@@ -141,10 +166,7 @@ void main() {
         return authBloc;
       },
       act: (bloc) => bloc.add(AuthLogoutRequested()),
-      expect: () => [
-        isA<AuthLoading>(),
-        isA<Unauthenticated>(),
-      ],
+      expect: () => [isA<AuthLoading>(), isA<Unauthenticated>()],
     );
   });
 }

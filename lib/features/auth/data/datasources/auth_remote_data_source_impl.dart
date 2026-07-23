@@ -11,7 +11,10 @@ class FirebaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   FirebaseAuthRemoteDataSourceImpl(this.firebaseAuth);
 
   @override
-  Future<UserModel> signUp({required String email, required String password}) async {
+  Future<UserModel> signUp({
+    required String email,
+    required String password,
+  }) async {
     try {
       final credential = await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
@@ -32,7 +35,10 @@ class FirebaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserModel> login({required String email, required String password}) async {
+  Future<UserModel> login({
+    required String email,
+    required String password,
+  }) async {
     try {
       final credential = await firebaseAuth.signInWithEmailAndPassword(
         email: email,
@@ -106,16 +112,21 @@ class MockAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserModel> signUp({required String email, required String password}) async {
+  Future<UserModel> signUp({
+    required String email,
+    required String password,
+  }) async {
     await Future.delayed(const Duration(milliseconds: 800));
-    
+
     if (email.isEmpty || password.isEmpty) {
       throw const AuthException('Email and password cannot be empty');
     }
-    
+
     final users = _getUsers();
     if (users.containsKey(email)) {
-      throw const AuthException('The email address is already in use by another account');
+      throw const AuthException(
+        'The email address is already in use by another account',
+      );
     }
 
     users[email] = password;
@@ -125,12 +136,18 @@ class MockAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       id: 'mock_uid_${email.hashCode.abs()}',
       email: email,
     );
-    await sharedPreferences.setString(_currentUserKey, jsonEncode(user.toJson()));
+    await sharedPreferences.setString(
+      _currentUserKey,
+      jsonEncode(user.toJson()),
+    );
     return user;
   }
 
   @override
-  Future<UserModel> login({required String email, required String password}) async {
+  Future<UserModel> login({
+    required String email,
+    required String password,
+  }) async {
     await Future.delayed(const Duration(milliseconds: 800));
 
     if (email.isEmpty || password.isEmpty) {
@@ -150,7 +167,10 @@ class MockAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       id: 'mock_uid_${email.hashCode.abs()}',
       email: email,
     );
-    await sharedPreferences.setString(_currentUserKey, jsonEncode(user.toJson()));
+    await sharedPreferences.setString(
+      _currentUserKey,
+      jsonEncode(user.toJson()),
+    );
     return user;
   }
 

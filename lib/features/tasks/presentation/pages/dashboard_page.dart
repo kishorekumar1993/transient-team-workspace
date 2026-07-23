@@ -63,7 +63,9 @@ class _DashboardPageState extends State<DashboardPage> {
             decoration: BoxDecoration(
               color: isDark ? AppTheme.darkSurface : Colors.white,
               border: Border(
-                right: BorderSide(color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder),
+                right: BorderSide(
+                  color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+                ),
               ),
             ),
             child: Column(
@@ -75,7 +77,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   child: Row(
                     children: [
                       Container(
-                        width: 40, height: 40,
+                        width: 40,
+                        height: 40,
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
                             colors: [AppTheme.primaryColor, Color(0xFF7C3AED)],
@@ -84,14 +87,29 @@ class _DashboardPageState extends State<DashboardPage> {
                           ),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: const Icon(Icons.bolt_rounded, color: Colors.white, size: 22),
+                        child: const Icon(
+                          Icons.bolt_rounded,
+                          color: Colors.white,
+                          size: 22,
+                        ),
                       ),
                       const SizedBox(width: 12),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Transient', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800, fontSize: 16)),
-                          Text('Task Workspace', style: theme.textTheme.bodyMedium?.copyWith(fontSize: 11)),
+                          Text(
+                            'Transient',
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            'Task Workspace',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontSize: 11,
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -99,7 +117,10 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 const SizedBox(height: 32),
                 // Nav items
-                ..._navItems.asMap().entries.map((e) => _buildSidebarItem(context, e.key, e.value, theme, isDark)),
+                ..._navItems.asMap().entries.map(
+                  (e) =>
+                      _buildSidebarItem(context, e.key, e.value, theme, isDark),
+                ),
                 const Spacer(),
                 // User profile
                 Padding(
@@ -114,22 +135,46 @@ class _DashboardPageState extends State<DashboardPage> {
                       children: [
                         CircleAvatar(
                           radius: 18,
-                          backgroundColor: AppTheme.primaryColor.withOpacity(0.15),
-                          child: const Icon(Icons.person_rounded, size: 20, color: AppTheme.primaryColor),
+                          backgroundColor: AppTheme.primaryColor.withOpacity(
+                            0.15,
+                          ),
+                          child: const Icon(
+                            Icons.person_rounded,
+                            size: 20,
+                            color: AppTheme.primaryColor,
+                          ),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Kishore Kumar', style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700, fontSize: 12)),
-                              Text('kishore@email.com', style: theme.textTheme.bodyMedium?.copyWith(fontSize: 10), overflow: TextOverflow.ellipsis),
+                              Text(
+                                'Kishore Kumar',
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 12,
+                                ),
+                              ),
+                              Text(
+                                'kishore@email.com',
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  fontSize: 10,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ],
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => context.read<AuthBloc>().add(AuthLogoutRequested()),
-                          child: Icon(Icons.logout_rounded, size: 18, color: theme.hintColor),
+                          onTap: () => context.read<AuthBloc>().add(
+                            AuthLogoutRequested(),
+                          ),
+                          child: Icon(
+                            Icons.logout_rounded,
+                            size: 18,
+                            color: theme.hintColor,
+                          ),
                         ),
                       ],
                     ),
@@ -145,7 +190,13 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  Widget _buildSidebarItem(BuildContext context, int index, _NavItem item, ThemeData theme, bool isDark) {
+  Widget _buildSidebarItem(
+    BuildContext context,
+    int index,
+    _NavItem item,
+    ThemeData theme,
+    bool isDark,
+  ) {
     final isSelected = _selectedIndex == index;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
@@ -156,18 +207,26 @@ class _DashboardPageState extends State<DashboardPage> {
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
-            color: isSelected ? AppTheme.primaryColor.withOpacity(0.1) : Colors.transparent,
+            color: isSelected
+                ? AppTheme.primaryColor.withOpacity(0.1)
+                : Colors.transparent,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
             children: [
-              Icon(item.icon, size: 20, color: isSelected ? AppTheme.primaryColor : theme.hintColor),
+              Icon(
+                item.icon,
+                size: 20,
+                color: isSelected ? AppTheme.primaryColor : theme.hintColor,
+              ),
               const SizedBox(width: 12),
               Text(
                 item.label,
                 style: TextStyle(
                   fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                  color: isSelected ? AppTheme.primaryColor : theme.textTheme.bodyMedium?.color,
+                  color: isSelected
+                      ? AppTheme.primaryColor
+                      : theme.textTheme.bodyMedium?.color,
                   fontSize: 14,
                 ),
               ),
@@ -187,7 +246,12 @@ class _DashboardPageState extends State<DashboardPage> {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: isDark ? AppTheme.darkSurface : Colors.white,
-          border: Border(top: BorderSide(color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder, width: 1)),
+          border: Border(
+            top: BorderSide(
+              color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+              width: 1,
+            ),
+          ),
         ),
         child: SafeArea(
           top: false,
@@ -201,22 +265,31 @@ class _DashboardPageState extends State<DashboardPage> {
                   onTap: () => setState(() => _selectedIndex = e.key),
                   behavior: HitTestBehavior.opaque,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 4,
+                    ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
                           e.value.icon,
                           size: 22,
-                          color: isSelected ? AppTheme.primaryColor : theme.hintColor,
+                          color: isSelected
+                              ? AppTheme.primaryColor
+                              : theme.hintColor,
                         ),
                         const SizedBox(height: 4),
                         Text(
                           e.value.label,
                           style: TextStyle(
                             fontSize: 10,
-                            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                            color: isSelected ? AppTheme.primaryColor : theme.hintColor,
+                            fontWeight: isSelected
+                                ? FontWeight.w700
+                                : FontWeight.w500,
+                            color: isSelected
+                                ? AppTheme.primaryColor
+                                : theme.hintColor,
                           ),
                         ),
                       ],

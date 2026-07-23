@@ -4,7 +4,7 @@ class AppTheme {
   // Theme Color Palette
   static const Color primaryColor = Color(0xFF4F46E5); // Indigo
   static const Color primaryAccent = Color(0xFF6366F1);
-  
+
   // Light Mode Colors
   static const Color lightBg = Color(0xFFF9FAFB);
   static const Color lightSurface = Colors.white;
@@ -72,10 +72,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -86,10 +83,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -97,7 +91,10 @@ class AppTheme {
         fillColor: Color(0xFFF3F4F6),
         labelStyle: const TextStyle(color: lightTextSecondary, fontSize: 14),
         hintStyle: const TextStyle(color: Colors.black38, fontSize: 14),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
@@ -116,8 +113,14 @@ class AppTheme {
         ),
       ),
       textTheme: const TextTheme(
-        titleLarge: TextStyle(fontWeight: FontWeight.bold, color: lightTextPrimary),
-        titleMedium: TextStyle(fontWeight: FontWeight.w600, color: lightTextPrimary),
+        titleLarge: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: lightTextPrimary,
+        ),
+        titleMedium: TextStyle(
+          fontWeight: FontWeight.w600,
+          color: lightTextPrimary,
+        ),
         bodyLarge: TextStyle(color: lightTextPrimary),
         bodyMedium: TextStyle(color: lightTextSecondary),
       ),
@@ -167,10 +170,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -181,10 +181,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -192,7 +189,10 @@ class AppTheme {
         fillColor: Color(0xFF1E293B),
         labelStyle: const TextStyle(color: darkTextSecondary, fontSize: 14),
         hintStyle: const TextStyle(color: Colors.white30, fontSize: 14),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
@@ -211,8 +211,14 @@ class AppTheme {
         ),
       ),
       textTheme: const TextTheme(
-        titleLarge: TextStyle(fontWeight: FontWeight.bold, color: darkTextPrimary),
-        titleMedium: TextStyle(fontWeight: FontWeight.w600, color: darkTextPrimary),
+        titleLarge: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: darkTextPrimary,
+        ),
+        titleMedium: TextStyle(
+          fontWeight: FontWeight.w600,
+          color: darkTextPrimary,
+        ),
         bodyLarge: TextStyle(color: darkTextPrimary),
         bodyMedium: TextStyle(color: darkTextSecondary),
       ),

@@ -96,7 +96,11 @@ void main() {
       act: (bloc) => bloc.add(const LoadTasksList()),
       expect: () => [
         isA<TaskListLoading>(),
-        isA<TaskListLoaded>().having((state) => state.tasks.length, 'length', 1),
+        isA<TaskListLoaded>().having(
+          (state) => state.tasks.length,
+          'length',
+          1,
+        ),
       ],
     );
 
@@ -110,7 +114,11 @@ void main() {
       act: (bloc) => bloc.add(const LoadTasksList()),
       expect: () => [
         isA<TaskListLoading>(),
-        isA<TaskListError>().having((state) => state.errorMessage, 'message', 'Server Timeout'),
+        isA<TaskListError>().having(
+          (state) => state.errorMessage,
+          'message',
+          'Server Timeout',
+        ),
       ],
     );
   });
@@ -121,7 +129,11 @@ void main() {
       build: () => taskListBloc,
       act: (bloc) => bloc.add(const UpdateStatusFilter('In Progress')),
       expect: () => [
-        isA<TaskListInitial>().having((s) => s.statusFilter, 'status', 'In Progress'),
+        isA<TaskListInitial>().having(
+          (s) => s.statusFilter,
+          'status',
+          'In Progress',
+        ),
         isA<TaskListLoading>(),
         isA<TaskListLoaded>(),
       ],
@@ -145,27 +157,38 @@ void main() {
       build: () => taskListBloc,
       act: (bloc) => bloc.add(LocalTaskCreated(tTask)),
       expect: () => [
-        isA<TaskListLoaded>().having((state) => state.tasks.first.title, 'first title', 'Test Task'),
+        isA<TaskListLoaded>().having(
+          (state) => state.tasks.first.title,
+          'first title',
+          'Test Task',
+        ),
       ],
     );
 
     blocTest<TaskListBloc, TaskListState>(
       'instantly replaces updated tasks inside presentation lists',
       build: () {
-        taskListBloc.emit(TaskListLoaded(
-          tasks: [tTask],
-          page: 1,
-          hasMore: false,
-          searchQuery: '',
-          statusFilter: 'All',
-          priorityFilter: 'All',
-          isSyncing: false,
-        ));
+        taskListBloc.emit(
+          TaskListLoaded(
+            tasks: [tTask],
+            page: 1,
+            hasMore: false,
+            searchQuery: '',
+            statusFilter: 'All',
+            priorityFilter: 'All',
+            isSyncing: false,
+          ),
+        );
         return taskListBloc;
       },
-      act: (bloc) => bloc.add(LocalTaskUpdated(tTask.copyWith(status: 'Completed'))),
+      act: (bloc) =>
+          bloc.add(LocalTaskUpdated(tTask.copyWith(status: 'Completed'))),
       expect: () => [
-        isA<TaskListLoaded>().having((state) => state.tasks.first.status, 'status', 'Completed'),
+        isA<TaskListLoaded>().having(
+          (state) => state.tasks.first.status,
+          'status',
+          'Completed',
+        ),
       ],
     );
   });

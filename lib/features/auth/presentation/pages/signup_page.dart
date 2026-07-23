@@ -33,11 +33,11 @@ class _SignUpPageState extends State<SignUpPage> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
-            AuthSignUpSubmitted(
-              email: _emailController.text.trim(),
-              password: _passwordController.text.trim(),
-            ),
-          );
+        AuthSignUpSubmitted(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        ),
+      );
     }
   }
 
@@ -91,7 +91,11 @@ class _SignUpPageState extends State<SignUpPage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_new_rounded, size: 20, color: theme.iconTheme.color),
+            icon: Icon(
+              Icons.arrow_back_ios_new_rounded,
+              size: 20,
+              color: theme.iconTheme.color,
+            ),
             onPressed: () => Navigator.pop(context),
           ),
         ),
@@ -104,21 +108,30 @@ class _SignUpPageState extends State<SignUpPage> {
                 SnackBar(
                   content: Row(
                     children: [
-                      const Icon(Icons.error_outline_rounded, color: Colors.white, size: 20),
+                      const Icon(
+                        Icons.error_outline_rounded,
+                        color: Colors.white,
+                        size: 20,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(child: Text(state.message)),
                     ],
                   ),
                   backgroundColor: AppTheme.priorityHigh,
                   behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               );
             }
           },
           child: Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 20.0,
+              ),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 420),
                 child: Form(
@@ -128,18 +141,28 @@ class _SignUpPageState extends State<SignUpPage> {
                     children: [
                       // Brand Logo & Title
                       Container(
-                        width: 60, height: 60,
+                        width: 60,
+                        height: 60,
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
                             colors: [AppTheme.primaryColor, Color(0xFF7C3AED)],
-                            begin: Alignment.topLeft, end: Alignment.bottomRight,
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
-                            BoxShadow(color: AppTheme.primaryColor.withOpacity(0.35), blurRadius: 18, offset: const Offset(0, 6)),
+                            BoxShadow(
+                              color: AppTheme.primaryColor.withOpacity(0.35),
+                              blurRadius: 18,
+                              offset: const Offset(0, 6),
+                            ),
                           ],
                         ),
-                        child: const Icon(Icons.person_add_rounded, size: 32, color: Colors.white),
+                        child: const Icon(
+                          Icons.person_add_rounded,
+                          size: 32,
+                          color: Colors.white,
+                        ),
                       ),
                       const SizedBox(height: 18),
                       Text(
@@ -154,7 +177,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       Text(
                         'Join Transient Workspace to manage tasks seamlessly',
                         textAlign: TextAlign.center,
-                        style: theme.textTheme.bodyMedium?.copyWith(fontSize: 13.5),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontSize: 13.5,
+                        ),
                       ),
                       const SizedBox(height: 28),
 
@@ -164,10 +189,16 @@ class _SignUpPageState extends State<SignUpPage> {
                         decoration: BoxDecoration(
                           color: isDark ? AppTheme.darkSurface : Colors.white,
                           borderRadius: BorderRadius.circular(24),
-                          border: Border.all(color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder),
+                          border: Border.all(
+                            color: isDark
+                                ? AppTheme.darkBorder
+                                : AppTheme.lightBorder,
+                          ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(isDark ? 0.0 : 0.06),
+                              color: Colors.black.withOpacity(
+                                isDark ? 0.0 : 0.06,
+                              ),
                               blurRadius: 24,
                               offset: const Offset(0, 6),
                             ),
@@ -177,63 +208,120 @@ class _SignUpPageState extends State<SignUpPage> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             // Email Field
-                            Text('Email Address', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700, fontSize: 13)),
+                            Text(
+                              'Email Address',
+                              style: theme.textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 13,
+                              ),
+                            ),
                             const SizedBox(height: 8),
                             TextFormField(
                               controller: _emailController,
                               keyboardType: TextInputType.emailAddress,
                               validator: _validateEmail,
-                              style: theme.textTheme.bodyLarge?.copyWith(fontSize: 14.5),
+                              style: theme.textTheme.bodyLarge?.copyWith(
+                                fontSize: 14.5,
+                              ),
                               decoration: InputDecoration(
                                 hintText: 'name@example.com',
-                                prefixIcon: Icon(Icons.email_outlined, color: theme.hintColor, size: 20),
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                                prefixIcon: Icon(
+                                  Icons.email_outlined,
+                                  color: theme.hintColor,
+                                  size: 20,
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 16,
+                                ),
                               ),
                             ),
                             const SizedBox(height: 18),
 
                             // Password Field
-                            Text('Password', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700, fontSize: 13)),
+                            Text(
+                              'Password',
+                              style: theme.textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 13,
+                              ),
+                            ),
                             const SizedBox(height: 8),
                             TextFormField(
                               controller: _passwordController,
                               obscureText: _obscurePassword,
                               validator: _validatePassword,
-                              style: theme.textTheme.bodyLarge?.copyWith(fontSize: 14.5),
+                              style: theme.textTheme.bodyLarge?.copyWith(
+                                fontSize: 14.5,
+                              ),
                               decoration: InputDecoration(
-                                hintText: 'At least 6 chars, 1 uppercase, 1 number',
-                                prefixIcon: Icon(Icons.lock_outline_rounded, color: theme.hintColor, size: 20),
+                                hintText:
+                                    'At least 6 chars, 1 uppercase, 1 number',
+                                prefixIcon: Icon(
+                                  Icons.lock_outline_rounded,
+                                  color: theme.hintColor,
+                                  size: 20,
+                                ),
                                 suffixIcon: IconButton(
                                   icon: Icon(
-                                    _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                                    color: theme.hintColor, size: 20,
+                                    _obscurePassword
+                                        ? Icons.visibility_off_outlined
+                                        : Icons.visibility_outlined,
+                                    color: theme.hintColor,
+                                    size: 20,
                                   ),
-                                  onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                                  onPressed: () => setState(
+                                    () => _obscurePassword = !_obscurePassword,
+                                  ),
                                 ),
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 16,
+                                ),
                               ),
                             ),
                             const SizedBox(height: 18),
 
                             // Confirm Password Field
-                            Text('Confirm Password', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700, fontSize: 13)),
+                            Text(
+                              'Confirm Password',
+                              style: theme.textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 13,
+                              ),
+                            ),
                             const SizedBox(height: 8),
                             TextFormField(
                               controller: _confirmPasswordController,
                               obscureText: _obscureConfirmPassword,
                               validator: _validateConfirmPassword,
-                              style: theme.textTheme.bodyLarge?.copyWith(fontSize: 14.5),
+                              style: theme.textTheme.bodyLarge?.copyWith(
+                                fontSize: 14.5,
+                              ),
                               decoration: InputDecoration(
                                 hintText: 'Re-enter your password',
-                                prefixIcon: Icon(Icons.lock_reset_rounded, color: theme.hintColor, size: 20),
+                                prefixIcon: Icon(
+                                  Icons.lock_reset_rounded,
+                                  color: theme.hintColor,
+                                  size: 20,
+                                ),
                                 suffixIcon: IconButton(
                                   icon: Icon(
-                                    _obscureConfirmPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                                    color: theme.hintColor, size: 20,
+                                    _obscureConfirmPassword
+                                        ? Icons.visibility_off_outlined
+                                        : Icons.visibility_outlined,
+                                    color: theme.hintColor,
+                                    size: 20,
                                   ),
-                                  onPressed: () => setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
+                                  onPressed: () => setState(
+                                    () => _obscureConfirmPassword =
+                                        !_obscureConfirmPassword,
+                                  ),
                                 ),
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 16,
+                                ),
                               ),
                             ),
                             const SizedBox(height: 28),
@@ -248,11 +336,20 @@ class _SignUpPageState extends State<SignUpPage> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(14),
                                     gradient: const LinearGradient(
-                                      colors: [AppTheme.primaryColor, Color(0xFF7C3AED)],
-                                      begin: Alignment.topLeft, end: Alignment.bottomRight,
+                                      colors: [
+                                        AppTheme.primaryColor,
+                                        Color(0xFF7C3AED),
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
                                     ),
                                     boxShadow: [
-                                      BoxShadow(color: AppTheme.primaryColor.withOpacity(0.35), blurRadius: 16, offset: const Offset(0, 4)),
+                                      BoxShadow(
+                                        color: AppTheme.primaryColor
+                                            .withOpacity(0.35),
+                                        blurRadius: 16,
+                                        offset: const Offset(0, 4),
+                                      ),
                                     ],
                                   ),
                                   child: ElevatedButton(
@@ -260,14 +357,27 @@ class _SignUpPageState extends State<SignUpPage> {
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.transparent,
                                       shadowColor: Colors.transparent,
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(14),
+                                      ),
                                     ),
                                     child: isLoading
                                         ? const SizedBox(
-                                            height: 22, width: 22,
-                                            child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.5),
+                                            height: 22,
+                                            width: 22,
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                              strokeWidth: 2.5,
+                                            ),
                                           )
-                                        : const Text('Create Account', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 16)),
+                                        : const Text(
+                                            'Create Account',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16,
+                                            ),
+                                          ),
                                   ),
                                 );
                               },
@@ -281,10 +391,22 @@ class _SignUpPageState extends State<SignUpPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Already have an account?', style: theme.textTheme.bodyMedium?.copyWith(fontSize: 13.5)),
+                          Text(
+                            'Already have an account?',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontSize: 13.5,
+                            ),
+                          ),
                           TextButton(
                             onPressed: () => Navigator.pop(context),
-                            child: const Text('Sign In', style: TextStyle(color: AppTheme.primaryColor, fontWeight: FontWeight.w800, fontSize: 14)),
+                            child: const Text(
+                              'Sign In',
+                              style: TextStyle(
+                                color: AppTheme.primaryColor,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 14,
+                              ),
+                            ),
                           ),
                         ],
                       ),

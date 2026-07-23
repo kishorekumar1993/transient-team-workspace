@@ -34,16 +34,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(AuthLoading());
     final result = await getCurrentUserUseCase();
-    result.fold(
-      (user) {
-        if (user != null) {
-          emit(Authenticated(user));
-        } else {
-          emit(const Unauthenticated());
-        }
-      },
-      (failure) => emit(Unauthenticated(errorMessage: failure.message)),
-    );
+    result.fold((user) {
+      if (user != null) {
+        emit(Authenticated(user));
+      } else {
+        emit(const Unauthenticated());
+      }
+    }, (failure) => emit(Unauthenticated(errorMessage: failure.message)));
   }
 
   Future<void> _onAuthLoginSubmitted(
@@ -51,7 +48,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(AuthLoading());
-    final result = await loginUseCase(email: event.email, password: event.password);
+    final result = await loginUseCase(
+      email: event.email,
+      password: event.password,
+    );
     result.fold(
       (user) => emit(Authenticated(user)),
       (failure) => emit(AuthError(failure.message)),
@@ -63,7 +63,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(AuthLoading());
-    final result = await signUpUseCase(email: event.email, password: event.password);
+    final result = await signUpUseCase(
+      email: event.email,
+      password: event.password,
+    );
     result.fold(
       (user) => emit(Authenticated(user)),
       (failure) => emit(AuthError(failure.message)),
@@ -89,7 +92,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     final result = await resetPasswordUseCase(event.email);
     result.fold(
-      (_) => emit(const AuthActionSuccess('Password reset link sent to your email')),
+      (_) => emit(
+        const AuthActionSuccess('Password reset link sent to your email'),
+      ),
       (failure) => emit(AuthError(failure.message)),
     );
   }

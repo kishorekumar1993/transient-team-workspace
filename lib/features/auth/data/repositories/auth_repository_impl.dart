@@ -20,7 +20,10 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
   }) async {
     try {
-      final userModel = await remoteDataSource.signUp(email: email, password: password);
+      final userModel = await remoteDataSource.signUp(
+        email: email,
+        password: password,
+      );
       await localDataSource.cacheUser(userModel);
       return Success(userModel);
     } on AuthException catch (e) {
@@ -38,7 +41,10 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
   }) async {
     try {
-      final userModel = await remoteDataSource.login(email: email, password: password);
+      final userModel = await remoteDataSource.login(
+        email: email,
+        password: password,
+      );
       await localDataSource.cacheUser(userModel);
       return Success(userModel);
     } on AuthException catch (e) {
@@ -73,7 +79,7 @@ class AuthRepositoryImpl implements AuthRepository {
       if (cachedUser != null) {
         return Success(cachedUser);
       }
-      
+
       // 2. Check remote if cache is empty (e.g. initial run)
       final remoteUser = await remoteDataSource.getCurrentUser();
       if (remoteUser != null) {

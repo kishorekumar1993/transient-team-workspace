@@ -24,8 +24,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
-            AuthResetPasswordRequested(_emailController.text.trim()),
-          );
+        AuthResetPasswordRequested(_emailController.text.trim()),
+      );
     }
   }
 
@@ -63,7 +63,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   content: Text(state.message),
                   backgroundColor: Colors.green,
                   behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               );
               Navigator.pop(context);
@@ -73,14 +75,19 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   content: Text(state.message),
                   backgroundColor: theme.colorScheme.error,
                   behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               );
             }
           },
           child: Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 20.0,
+              ),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -90,7 +97,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       'Forgot Password',
                       style: theme.textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: isDark ? Colors.white : theme.colorScheme.primary,
+                        color: isDark
+                            ? Colors.white
+                            : theme.colorScheme.primary,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -103,7 +112,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     // Email input
                     Text(
                       'Email Address',
-                      style: theme.textTheme.titleMedium?.copyWith(fontSize: 14),
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontSize: 14,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
@@ -131,7 +142,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                   width: 24,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2.5,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white,
+                                    ),
                                   ),
                                 )
                               : const Text('Send Reset Link'),

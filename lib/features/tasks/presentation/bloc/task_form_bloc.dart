@@ -32,12 +32,14 @@ class TaskFormBloc extends Bloc<TaskFormEvent, TaskFormState> {
       priority: event.priority,
       dueDate: event.dueDate,
       status: event.status,
-      assignedUser: event.assignedUser.isEmpty ? 'Unassigned' : event.assignedUser,
+      assignedUser: event.assignedUser.isEmpty
+          ? 'Unassigned'
+          : event.assignedUser,
       createdAt: DateTime.now(),
     );
 
-    final result = isEdit 
-        ? await updateTaskUseCase(task) 
+    final result = isEdit
+        ? await updateTaskUseCase(task)
         : await createTaskUseCase(task);
 
     result.fold(

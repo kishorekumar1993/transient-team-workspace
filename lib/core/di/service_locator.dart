@@ -60,15 +60,18 @@ Future<void> init() async {
   } catch (e) {
     authRemoteDataSource = MockAuthRemoteDataSourceImpl(sl());
     // ignore: avoid_print
-    print('DI Setup: FirebaseAuth check failed (likely missing configuration). Falling back to Mock Auth Source.');
+    print(
+      'DI Setup: FirebaseAuth check failed (likely missing configuration). Falling back to Mock Auth Source.',
+    );
   }
 
   sl.registerSingleton<AuthRemoteDataSource>(authRemoteDataSource);
-  sl.registerLazySingleton<AuthLocalDataSource>(() => AuthLocalDataSourceImpl(sl()));
-  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
-        remoteDataSource: sl(),
-        localDataSource: sl(),
-      ));
+  sl.registerLazySingleton<AuthLocalDataSource>(
+    () => AuthLocalDataSourceImpl(sl()),
+  );
+  sl.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(remoteDataSource: sl(), localDataSource: sl()),
+  );
 
   // Auth Use Cases
   sl.registerLazySingleton(() => SignUpUseCase(sl()));
@@ -78,24 +81,32 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ResetPasswordUseCase(sl()));
 
   // Auth BLoC (registered as factory since we rebuild it when routes load)
-  sl.registerFactory(() => AuthBloc(
-        getCurrentUserUseCase: sl(),
-        loginUseCase: sl(),
-        signUpUseCase: sl(),
-        logoutUseCase: sl(),
-        resetPasswordUseCase: sl(),
-      ));
+  sl.registerFactory(
+    () => AuthBloc(
+      getCurrentUserUseCase: sl(),
+      loginUseCase: sl(),
+      signUpUseCase: sl(),
+      logoutUseCase: sl(),
+      resetPasswordUseCase: sl(),
+    ),
+  );
 
   // ---------------------------------------------------------------------------
   // Tasks Feature
   // ---------------------------------------------------------------------------
-  sl.registerLazySingleton<TaskRemoteDataSource>(() => TaskRemoteDataSourceImpl(dio: sl()));
-  sl.registerLazySingleton<TaskLocalDataSource>(() => TaskLocalDataSourceImpl(sharedPreferences: sl()));
-  sl.registerLazySingleton<TaskRepository>(() => TaskRepositoryImpl(
-        remoteDataSource: sl(),
-        localDataSource: sl(),
-        networkInfo: sl(),
-      ));
+  sl.registerLazySingleton<TaskRemoteDataSource>(
+    () => TaskRemoteDataSourceImpl(dio: sl()),
+  );
+  sl.registerLazySingleton<TaskLocalDataSource>(
+    () => TaskLocalDataSourceImpl(sharedPreferences: sl()),
+  );
+  sl.registerLazySingleton<TaskRepository>(
+    () => TaskRepositoryImpl(
+      remoteDataSource: sl(),
+      localDataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
 
   // Tasks Use Cases
   sl.registerLazySingleton(() => GetTasksUseCase(sl()));
@@ -104,12 +115,10 @@ Future<void> init() async {
   sl.registerLazySingleton(() => SyncOfflineTasksUseCase(sl()));
 
   // Tasks Blocs
-  sl.registerFactory(() => TaskListBloc(
-        getTasksUseCase: sl(),
-        syncOfflineTasksUseCase: sl(),
-      ));
-  sl.registerFactory(() => TaskFormBloc(
-        createTaskUseCase: sl(),
-        updateTaskUseCase: sl(),
-      ));
+  sl.registerFactory(
+    () => TaskListBloc(getTasksUseCase: sl(), syncOfflineTasksUseCase: sl()),
+  );
+  sl.registerFactory(
+    () => TaskFormBloc(createTaskUseCase: sl(), updateTaskUseCase: sl()),
+  );
 }

@@ -64,7 +64,9 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
         final hasMore = data['hasMore'] as bool? ?? false;
         return RemoteTasksResponse(tasks: tasksList, hasMore: hasMore);
       } else {
-        throw ServerException('Failed to load tasks: Code ${response.statusCode}');
+        throw ServerException(
+          'Failed to load tasks: Code ${response.statusCode}',
+        );
       }
     } on DioException catch (e) {
       throw ServerException(e.message ?? 'Dio server exception occurred');
@@ -80,7 +82,9 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
       if (response.statusCode == 201 || response.statusCode == 200) {
         return TaskModel.fromJson(response.data as Map<String, dynamic>);
       } else {
-        throw ServerException('Failed to create task: Code ${response.statusCode}');
+        throw ServerException(
+          'Failed to create task: Code ${response.statusCode}',
+        );
       }
     } on DioException catch (e) {
       throw ServerException(e.message ?? 'Dio server exception occurred');
@@ -92,11 +96,16 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
   @override
   Future<TaskModel> updateTask(TaskModel task) async {
     try {
-      final response = await dio.put('$_tasksUrl/${task.id}', data: task.toJson());
+      final response = await dio.put(
+        '$_tasksUrl/${task.id}',
+        data: task.toJson(),
+      );
       if (response.statusCode == 200) {
         return TaskModel.fromJson(response.data as Map<String, dynamic>);
       } else {
-        throw ServerException('Failed to update task: Code ${response.statusCode}');
+        throw ServerException(
+          'Failed to update task: Code ${response.statusCode}',
+        );
       }
     } on DioException catch (e) {
       throw ServerException(e.message ?? 'Dio server exception occurred');

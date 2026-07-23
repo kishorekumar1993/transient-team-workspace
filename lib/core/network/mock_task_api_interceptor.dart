@@ -20,7 +20,7 @@ class MockTaskApiInterceptor extends Interceptor {
   void _prepopulateTasks() {
     final now = DateTime.now();
     final random = Random();
-    
+
     final titles = [
       'Set up Git repositories and branches',
       'Configure Firebase Project & Apps',
@@ -81,12 +81,20 @@ class MockTaskApiInterceptor extends Interceptor {
 
     final priorities = ['Low', 'Medium', 'High'];
     final statuses = ['Pending', 'In Progress', 'Completed'];
-    final users = ['Alice Smith', 'Bob Jones', 'Charlie Brown', 'Diana Prince', 'Evan Wright'];
+    final users = [
+      'Alice Smith',
+      'Bob Jones',
+      'Charlie Brown',
+      'Diana Prince',
+      'Evan Wright',
+    ];
 
     for (int i = 0; i < titles.length; i++) {
-      final daysDiff = random.nextInt(30) - 10; // due dates between -10 and +20 days from now
+      final daysDiff =
+          random.nextInt(30) -
+          10; // due dates between -10 and +20 days from now
       final dueDate = now.add(Duration(days: daysDiff));
-      
+
       _inMemoryTasks.add({
         'id': 'task_id_${i + 1}',
         'title': titles[i],
@@ -101,7 +109,10 @@ class MockTaskApiInterceptor extends Interceptor {
   }
 
   @override
-  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  Future<void> onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     // Simulate network latency (between 400ms and 800ms)
     await Future<void>.delayed(const Duration(milliseconds: 600));
 
@@ -147,12 +158,16 @@ class MockTaskApiInterceptor extends Interceptor {
     handler.next(options);
   }
 
-  void _handleGetTasks(RequestOptions options, RequestInterceptorHandler handler) {
+  void _handleGetTasks(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) {
     final queryParams = options.queryParameters;
-    
+
     // Parse query params
     final int page = int.tryParse(queryParams['page']?.toString() ?? '1') ?? 1;
-    final int limit = int.tryParse(queryParams['limit']?.toString() ?? '10') ?? 10;
+    final int limit =
+        int.tryParse(queryParams['limit']?.toString() ?? '10') ?? 10;
     final String search = queryParams['search']?.toString().toLowerCase() ?? '';
     final String status = queryParams['status']?.toString() ?? '';
     final String priority = queryParams['priority']?.toString() ?? '';
@@ -185,13 +200,15 @@ class MockTaskApiInterceptor extends Interceptor {
     if (startDateStr.isNotEmpty && endDateStr.isNotEmpty) {
       final startDate = DateTime.tryParse(startDateStr);
       final endDate = DateTime.tryParse(endDateStr);
-      
+
       if (startDate != null && endDate != null) {
         filtered = filtered.where((t) {
           final dueDate = DateTime.tryParse(t['dueDate'] ?? '');
           if (dueDate == null) return false;
-          return dueDate.isAfter(startDate.subtract(const Duration(seconds: 1))) && 
-                 dueDate.isBefore(endDate.add(const Duration(seconds: 1)));
+          return dueDate.isAfter(
+                startDate.subtract(const Duration(seconds: 1)),
+              ) &&
+              dueDate.isBefore(endDate.add(const Duration(seconds: 1)));
         }).toList();
       }
     }
@@ -206,7 +223,7 @@ class MockTaskApiInterceptor extends Interceptor {
     // Paginate
     final int startIndex = (page - 1) * limit;
     final int endIndex = min(startIndex + limit, filtered.length);
-    
+
     List<Map<String, dynamic>> pagedList = [];
     if (startIndex < filtered.length) {
       pagedList = filtered.sublist(startIndex, endIndex);
@@ -223,15 +240,14 @@ class MockTaskApiInterceptor extends Interceptor {
     };
 
     handler.resolve(
-      Response(
-        requestOptions: options,
-        data: responseData,
-        statusCode: 200,
-      ),
+      Response(requestOptions: options, data: responseData, statusCode: 200),
     );
   }
 
-  void _handlePostTask(RequestOptions options, RequestInterceptorHandler handler) {
+  void _handlePostTask(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) {
     try {
       final dynamic body = options.data;
       Map<String, dynamic> bodyMap = {};
@@ -256,11 +272,7 @@ class MockTaskApiInterceptor extends Interceptor {
       _inMemoryTasks.insert(0, newTask); // Insert at beginning of memory list
 
       handler.resolve(
-        Response(
-          requestOptions: options,
-          data: newTask,
-          statusCode: 201,
-        ),
+        Response(requestOptions: options, data: newTask, statusCode: 201),
       );
     } catch (e) {
       handler.reject(
@@ -273,7 +285,11 @@ class MockTaskApiInterceptor extends Interceptor {
     }
   }
 
-  void _handlePutTask(String taskId, RequestOptions options, RequestInterceptorHandler handler) {
+  void _handlePutTask(
+    String taskId,
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) {
     try {
       final dynamic body = options.data;
       Map<String, dynamic> bodyMap = {};
@@ -305,21 +321,19 @@ class MockTaskApiInterceptor extends Interceptor {
       final updatedTask = {
         ...existingTask,
         if (bodyMap.containsKey('title')) 'title': bodyMap['title'],
-        if (bodyMap.containsKey('description')) 'description': bodyMap['description'],
+        if (bodyMap.containsKey('description'))
+          'description': bodyMap['description'],
         if (bodyMap.containsKey('priority')) 'priority': bodyMap['priority'],
         if (bodyMap.containsKey('dueDate')) 'dueDate': bodyMap['dueDate'],
         if (bodyMap.containsKey('status')) 'status': bodyMap['status'],
-        if (bodyMap.containsKey('assignedUser')) 'assignedUser': bodyMap['assignedUser'],
+        if (bodyMap.containsKey('assignedUser'))
+          'assignedUser': bodyMap['assignedUser'],
       };
 
       _inMemoryTasks[index] = updatedTask;
 
       handler.resolve(
-        Response(
-          requestOptions: options,
-          data: updatedTask,
-          statusCode: 200,
-        ),
+        Response(requestOptions: options, data: updatedTask, statusCode: 200),
       );
     } catch (e) {
       handler.reject(

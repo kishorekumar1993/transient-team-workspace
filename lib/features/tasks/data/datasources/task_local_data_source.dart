@@ -10,10 +10,7 @@ class OfflineAction {
   OfflineAction({required this.actionType, required this.task});
 
   Map<String, dynamic> toJson() {
-    return {
-      'actionType': actionType,
-      'task': task.toJson(),
-    };
+    return {'actionType': actionType, 'task': task.toJson()};
   }
 
   factory OfflineAction.fromJson(Map<String, dynamic> json) {
@@ -45,7 +42,9 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
     if (raw == null) return [];
     try {
       final decoded = jsonDecode(raw) as List;
-      return decoded.map((item) => TaskModel.fromJson(item as Map<String, dynamic>)).toList();
+      return decoded
+          .map((item) => TaskModel.fromJson(item as Map<String, dynamic>))
+          .toList();
     } catch (_) {
       throw const CacheException('Failed to parse cached tasks');
     }
@@ -54,7 +53,10 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
   @override
   Future<void> cacheTasks(List<TaskModel> tasks) async {
     final rawList = tasks.map((t) => t.toJson()).toList();
-    final success = await sharedPreferences.setString(_cachedTasksKey, jsonEncode(rawList));
+    final success = await sharedPreferences.setString(
+      _cachedTasksKey,
+      jsonEncode(rawList),
+    );
     if (!success) {
       throw const CacheException('Failed to write tasks to cache');
     }
@@ -64,19 +66,25 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
   Future<void> queueOfflineAction(String actionType, TaskModel task) async {
     try {
       final queue = await getOfflineQueue();
-      
+
       // If there is an existing update/create action for this task in the queue, we can update it or merge it
       final index = queue.indexWhere((action) => action.task.id == task.id);
       if (index != -1) {
         // Keep the original actionType (if it was CREATE, keep it as CREATE)
         final originalActionType = queue[index].actionType;
-        queue[index] = OfflineAction(actionType: originalActionType, task: task);
+        queue[index] = OfflineAction(
+          actionType: originalActionType,
+          task: task,
+        );
       } else {
         queue.add(OfflineAction(actionType: actionType, task: task));
       }
 
       final rawList = queue.map((action) => action.toJson()).toList();
-      final success = await sharedPreferences.setString(_offlineQueueKey, jsonEncode(rawList));
+      final success = await sharedPreferences.setString(
+        _offlineQueueKey,
+        jsonEncode(rawList),
+      );
       if (!success) {
         throw const CacheException('Failed to save action to offline queue');
       }
@@ -91,7 +99,9 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
     if (raw == null) return [];
     try {
       final decoded = jsonDecode(raw) as List;
-      return decoded.map((item) => OfflineAction.fromJson(item as Map<String, dynamic>)).toList();
+      return decoded
+          .map((item) => OfflineAction.fromJson(item as Map<String, dynamic>))
+          .toList();
     } catch (_) {
       return [];
     }
