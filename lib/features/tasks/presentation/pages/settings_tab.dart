@@ -53,7 +53,7 @@ class _SettingsTabState extends State<SettingsTab> {
                   width: 56,
                   height: 56,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.25),
+                    color: Colors.white.withValues(alpha:0.25),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
@@ -97,7 +97,7 @@ class _SettingsTabState extends State<SettingsTab> {
                     vertical: 5,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withValues(alpha:0.2),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: const Text(
@@ -201,10 +201,10 @@ class _SettingsTabState extends State<SettingsTab> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               decoration: BoxDecoration(
-                color: AppTheme.priorityHigh.withOpacity(0.08),
+                color: AppTheme.priorityHigh.withValues(alpha:0.08),
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
-                  color: AppTheme.priorityHigh.withOpacity(0.25),
+                  color: AppTheme.priorityHigh.withValues(alpha:0.25),
                 ),
               ),
               child: Row(
@@ -213,7 +213,7 @@ class _SettingsTabState extends State<SettingsTab> {
                     width: 36,
                     height: 36,
                     decoration: BoxDecoration(
-                      color: AppTheme.priorityHigh.withOpacity(0.12),
+                      color: AppTheme.priorityHigh.withValues(alpha:0.12),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: const Icon(
@@ -300,7 +300,7 @@ class _SettingsTabState extends State<SettingsTab> {
               width: 36,
               height: 36,
               decoration: BoxDecoration(
-                color: iconColor.withOpacity(0.12),
+                color: iconColor.withValues(alpha:0.12),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(icon, color: iconColor, size: 20),
@@ -354,7 +354,7 @@ class _SettingsTabState extends State<SettingsTab> {
             width: 36,
             height: 36,
             decoration: BoxDecoration(
-              color: iconColor.withOpacity(0.12),
+              color: iconColor.withValues(alpha:0.12),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(icon, color: iconColor, size: 20),

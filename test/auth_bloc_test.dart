@@ -106,7 +106,7 @@ void main() {
       expect: () => [
         isA<AuthLoading>(),
         isA<Authenticated>().having(
-          (state) => state.user?.email,
+          (state) => state.user.email,
           'email',
           tUser.email,
         ),
@@ -137,7 +137,7 @@ void main() {
       expect: () => [
         isA<AuthLoading>(),
         isA<Authenticated>().having(
-          (state) => state.user?.email,
+          (state) => state.user.email,
           'email',
           'test@workspace.com',
         ),

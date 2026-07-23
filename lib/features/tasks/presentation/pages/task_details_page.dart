@@ -153,7 +153,7 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: AppTheme.primaryColor.withOpacity(0.12),
+                color: AppTheme.primaryColor.withValues(alpha:0.12),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(
@@ -209,7 +209,7 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(isDark ? 0.0 : 0.05),
+                        color: Colors.black.withValues(alpha:isDark ? 0.0 : 0.05),
                         blurRadius: 20,
                         offset: const Offset(0, 4),
                       ),
@@ -284,7 +284,7 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(isDark ? 0.0 : 0.05),
+                        color: Colors.black.withValues(alpha:isDark ? 0.0 : 0.05),
                         blurRadius: 20,
                         offset: const Offset(0, 4),
                       ),
@@ -304,7 +304,7 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
                             CircleAvatar(
                               radius: 16,
                               backgroundColor: AppTheme.primaryColor
-                                  .withOpacity(0.15),
+                                  .withValues(alpha:0.15),
                               child: Text(
                                 initials,
                                 style: const TextStyle(
@@ -445,7 +445,7 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(isDark ? 0.0 : 0.05),
+                        color: Colors.black.withValues(alpha:isDark ? 0.0 : 0.05),
                         blurRadius: 20,
                         offset: const Offset(0, 4),
                       ),
@@ -507,9 +507,11 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
                                         CreateEditTaskPage(task: _currentTask),
                                   ),
                                 );
-                                if (result != null && mounted)
+                                if (result != null && mounted){
+
+
                                   setState(() => _currentTask = result);
-                              },
+}                              },
                               icon: const Icon(Icons.edit_outlined, size: 18),
                               label: const Text('Edit Task'),
                               style: OutlinedButton.styleFrom(
@@ -552,7 +554,7 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
                                         BoxShadow(
                                           color: const Color(
                                             0xFF10B981,
-                                          ).withOpacity(0.35),
+                                          ).withValues(alpha:0.35),
                                           blurRadius: 14,
                                           offset: const Offset(0, 4),
                                         ),
@@ -604,9 +606,9 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withValues(alpha:0.12),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha:0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -640,7 +642,7 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: iconColor.withOpacity(0.12),
+            color: iconColor.withValues(alpha:0.12),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(icon, size: 20, color: iconColor),

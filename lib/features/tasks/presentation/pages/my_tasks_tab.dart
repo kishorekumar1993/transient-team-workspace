@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -195,14 +194,14 @@ class _MyTasksTabState extends State<MyTasksTab>
                               boxShadow: isSelected
                                   ? [
                                       BoxShadow(
-                                        color: tabColor.withOpacity(0.3),
+                                        color: tabColor.withValues(alpha:0.3),
                                         blurRadius: 12,
                                         offset: const Offset(0, 4),
                                       ),
                                     ]
                                   : [
                                       BoxShadow(
-                                        color: Colors.black.withOpacity(
+                                        color: Colors.black.withValues(alpha:
                                           isDark ? 0.0 : 0.03,
                                         ),
                                         blurRadius: 8,
@@ -235,7 +234,7 @@ class _MyTasksTabState extends State<MyTasksTab>
                                     fontSize: 10.5,
                                     fontWeight: FontWeight.w600,
                                     color: isSelected
-                                        ? Colors.white.withOpacity(0.8)
+                                        ? Colors.white.withValues(alpha:0.8)
                                         : theme.hintColor,
                                   ),
                                 ),
@@ -278,7 +277,7 @@ class _MyTasksTabState extends State<MyTasksTab>
                               Icon(
                                 _tabIcon(tabIdx),
                                 size: 48,
-                                color: _tabColor(tabIdx).withOpacity(0.25),
+                                color: _tabColor(tabIdx).withValues(alpha:0.25),
                               ),
                               const SizedBox(height: 14),
                               Text(
@@ -333,7 +332,7 @@ class _MyTasksTabState extends State<MyTasksTab>
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(isDark ? 0.0 : 0.06),
+            color: Colors.black.withValues(alpha:isDark ? 0.0 : 0.06),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -378,7 +377,7 @@ class _MyTasksTabState extends State<MyTasksTab>
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: priorityColor.withOpacity(0.12),
+                              color: priorityColor.withValues(alpha:0.12),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
@@ -398,7 +397,7 @@ class _MyTasksTabState extends State<MyTasksTab>
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: statusColor.withOpacity(0.12),
+                              color: statusColor.withValues(alpha:0.12),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Row(
@@ -457,7 +456,7 @@ class _MyTasksTabState extends State<MyTasksTab>
                         children: [
                           CircleAvatar(
                             radius: 12,
-                            backgroundColor: AppTheme.primaryColor.withOpacity(
+                            backgroundColor: AppTheme.primaryColor.withValues(alpha:
                               0.15,
                             ),
                             child: Text(

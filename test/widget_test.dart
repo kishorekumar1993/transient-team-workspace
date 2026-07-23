@@ -1,117 +1,120 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_test/flutter_test.dart';
-// import 'package:transient/core/theme/theme_cubit.dart';
-// import 'package:transient/features/auth/domain/entities/user_entity.dart';
-// import 'package:transient/features/auth/presentation/bloc/auth_bloc.dart';
-// import 'package:transient/features/auth/presentation/bloc/auth_event.dart';
-// import 'package:transient/features/auth/presentation/bloc/auth_state.dart';
-// import 'package:transient/features/auth/presentation/pages/login_page.dart';
-// import 'package:transient/features/tasks/presentation/bloc/task_list_bloc.dart';
-// import 'package:transient/features/tasks/presentation/bloc/task_list_state.dart';
-// import 'package:transient/features/tasks/presentation/pages/dashboard_page.dart';
-// import 'package:transient/main.dart';
+import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:transient/core/network/network_info.dart';
+import 'package:transient/core/theme/theme_cubit.dart';
+import 'package:transient/features/auth/domain/entities/user_entity.dart';
+import 'package:transient/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:transient/features/auth/presentation/bloc/auth_event.dart';
+import 'package:transient/features/auth/presentation/bloc/auth_state.dart';
+import 'package:transient/features/auth/presentation/pages/login_page.dart';
+import 'package:transient/features/tasks/presentation/bloc/task_list_bloc.dart';
+import 'package:transient/features/tasks/presentation/bloc/task_list_event.dart';
+import 'package:transient/features/tasks/presentation/bloc/task_list_state.dart';
+import 'package:transient/features/tasks/presentation/pages/dashboard_page.dart';
+import 'package:transient/main.dart';
 
-// // Simple Mocks for BLoCs to test UI wrapper routing
-// class FakeThemeCubit extends Cubit<ThemeMode> implements ThemeCubit {
-//   FakeThemeCubit() : super(ThemeMode.light);
+// Stub network info for DashboardHomeTab initialization
+class StubNetworkInfo implements NetworkInfo {
+  @override
+  Future<bool> get isConnected => Future.value(true);
 
-//   @override
-//   void toggleTheme() {}
+  @override
+  Stream<bool> get onConnectivityChanged => Stream.value(true);
+}
 
-//   @override
-//   void setThemeMode(ThemeMode mode) {}
-// }
+// Modern mocks using mocktail and bloc_test
+class MockThemeCubit extends MockCubit<ThemeMode> implements ThemeCubit {}
+class MockAuthBloc extends MockBloc<AuthEvent, AuthState> implements AuthBloc {}
+class MockTaskListBloc extends MockBloc<TaskListEvent, TaskListState> implements TaskListBloc {}
 
-// class FakeAuthBloc extends Cubit<AuthState> implements AuthBloc {
-//   FakeAuthBloc(super.initialState);
+class FakeAuthEvent extends Fake implements AuthEvent {}
+class FakeTaskListEvent extends Fake implements TaskListEvent {}
 
-//   @override
-//   void add(AuthEvent event) {}
+void main() {
+  late MockThemeCubit mockThemeCubit;
+  late MockAuthBloc mockAuthBloc;
+  late MockTaskListBloc mockTaskListBloc;
 
-//   @override
-//   get getCurrentUserUseCase => null;
+  setUpAll(() {
+    registerFallbackValue(FakeAuthEvent());
+    registerFallbackValue(FakeTaskListEvent());
+    
+    // Register mock network info in GetIt for DashboardHomeTab dependency lookup
+    final getIt = GetIt.instance;
+    if (!getIt.isRegistered<NetworkInfo>()) {
+      getIt.registerLazySingleton<NetworkInfo>(() => StubNetworkInfo());
+    }
+  });
 
-//   @override
-//   get loginUseCase => null;
+  setUp(() {
+    mockThemeCubit = MockThemeCubit();
+    mockAuthBloc = MockAuthBloc();
+    mockTaskListBloc = MockTaskListBloc();
 
-//   @override
-//   get signUpUseCase => null;
+    // Default stub states to avoid null check errors
+    when(() => mockThemeCubit.state).thenReturn(ThemeMode.light);
+    when(() => mockTaskListBloc.state).thenReturn(const TaskListInitial());
+  });
 
-//   @override
-//   get logoutUseCase => null;
+  Widget createWidgetUnderTest() {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ThemeCubit>.value(value: mockThemeCubit),
+        BlocProvider<AuthBloc>.value(value: mockAuthBloc),
+        BlocProvider<TaskListBloc>.value(value: mockTaskListBloc),
+      ],
+      child: const MaterialApp(home: AuthWrapper()),
+    );
+  }
 
-//   @override
-//   get resetPasswordUseCase => null;
-// }
+  testWidgets('displays Loading Indicator when Auth state is loading', (
+    WidgetTester tester,
+  ) async {
+    when(() => mockAuthBloc.state).thenReturn(AuthLoading());
 
-// class FakeTaskListBloc extends Cubit<TaskListState> implements TaskListBloc {
-//   FakeTaskListBloc(super.initialState);
+    await tester.pumpWidget(createWidgetUnderTest());
 
-//   @override
-//   void add(event) {}
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+  });
 
-//   @override
-//   get getTasksUseCase => null;
+  testWidgets('renders LoginPage when state is Unauthenticated', (
+    WidgetTester tester,
+  ) async {
+    when(() => mockAuthBloc.state).thenReturn(const Unauthenticated());
 
-//   @override
-//   get syncOfflineTasksUseCase => null;
-// }
+    // Set screen size to a standard desktop width to avoid RenderFlex overflows in tests
+    tester.view.physicalSize = const Size(1200, 1000);
+    tester.view.devicePixelRatio = 1.0;
 
-// void main() {
-//   late FakeThemeCubit fakeThemeCubit;
-//   late FakeAuthBloc fakeAuthBloc;
-//   late FakeTaskListBloc fakeTaskListBloc;
+    await tester.pumpWidget(createWidgetUnderTest());
+    await tester.pumpAndSettle();
 
-//   setUp(() {
-//     fakeThemeCubit = FakeThemeCubit();
-//     fakeTaskListBloc = FakeTaskListBloc(const TaskListInitial());
-//   });
+    expect(find.byType(LoginPage), findsOneWidget);
 
-//   Widget createWidgetUnderTest() {
-//     return MultiBlocProvider(
-//       providers: [
-//         BlocProvider<ThemeCubit>.value(value: fakeThemeCubit),
-//         BlocProvider<AuthBloc>.value(value: fakeAuthBloc),
-//         BlocProvider<TaskListBloc>.value(value: fakeTaskListBloc),
-//       ],
-//       child: const MaterialApp(home: AuthWrapper()),
-//     );
-//   }
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+  });
 
-//   testWidgets('displays Loading Indicator when Auth state is loading', (
-//     WidgetTester tester,
-//   ) async {
-//     fakeAuthBloc = FakeAuthBloc(AuthLoading());
+  testWidgets('renders DashboardPage when state is Authenticated', (
+    WidgetTester tester,
+  ) async {
+    const user = UserEntity(id: '123', email: 'test@workspace.com');
+    when(() => mockAuthBloc.state).thenReturn(const Authenticated(user));
 
-//     await tester.pumpWidget(createWidgetUnderTest());
+    // Force a large desktop viewport size (isWide = true) to render layout without overflows
+    tester.view.physicalSize = const Size(1400, 1000);
+    tester.view.devicePixelRatio = 1.0;
 
-//     expect(find.byType(CircularProgressIndicator), findsOneWidget);
-//   });
+    await tester.pumpWidget(createWidgetUnderTest());
+    await tester.pump();
 
-//   testWidgets('renders LoginPage when state is Unauthenticated', (
-//     WidgetTester tester,
-//   ) async {
-//     fakeAuthBloc = FakeAuthBloc(Unauthenticated());
-
-//     await tester.pumpWidget(createWidgetUnderTest());
-//     await tester.pumpAndSettle();
-
-//     expect(find.byType(LoginPage), findsOneWidget);
-//   });
-
-//   testWidgets('renders DashboardPage when state is Authenticated', (
-//     WidgetTester tester,
-//   ) async {
-//     fakeAuthBloc = FakeAuthBloc(
-//       const Authenticated(
-//         user: UserEntity(id: '123', email: 'test@workspace.com'),
-//       ),
-//     );
-
-//     await tester.pumpWidget(createWidgetUnderTest());
-//     await tester.pumpAndSettle();
-
-//     expect(find.byType(DashboardPage), findsOneWidget);
-//   });
-// }
+    expect(find.byType(DashboardPage), findsOneWidget);
+    
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+  });
+}

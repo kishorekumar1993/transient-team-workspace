@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import '../../../core/config/app_config.dart';
+import 'package:transient/core/config/app_config.dart';
 import '../../../../core/error/exceptions.dart';
 import '../models/task_model.dart';
 

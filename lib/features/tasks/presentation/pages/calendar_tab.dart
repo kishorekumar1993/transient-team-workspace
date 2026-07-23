@@ -77,7 +77,7 @@ class _CalendarTabState extends State<CalendarTab> {
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: AppTheme.primaryColor.withOpacity(0.12),
+                color: AppTheme.primaryColor.withValues(alpha:0.12),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(
@@ -176,7 +176,7 @@ class _CalendarTabState extends State<CalendarTab> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(isDark ? 0.0 : 0.04),
+                    color: Colors.black.withValues(alpha:isDark ? 0.0 : 0.04),
                     blurRadius: 16,
                     offset: const Offset(0, 4),
                   ),
@@ -243,7 +243,7 @@ class _CalendarTabState extends State<CalendarTab> {
                   // Day Headers (Sun - Sat)
                   Container(
                     color: isDark
-                        ? AppTheme.darkBg.withOpacity(0.5)
+                        ? AppTheme.darkBg.withValues(alpha:0.5)
                         : AppTheme.lightBg,
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Row(
@@ -297,7 +297,7 @@ class _CalendarTabState extends State<CalendarTab> {
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
                               color: isSelected
-                                  ? AppTheme.primaryColor.withOpacity(0.08)
+                                  ? AppTheme.primaryColor.withValues(alpha:0.08)
                                   : isDark
                                   ? AppTheme.darkSurface
                                   : Colors.white,
@@ -305,7 +305,7 @@ class _CalendarTabState extends State<CalendarTab> {
                                 color: isSelected
                                     ? AppTheme.primaryColor
                                     : (isDark
-                                          ? AppTheme.darkBorder.withOpacity(0.5)
+                                          ? AppTheme.darkBorder.withValues(alpha:0.5)
                                           : AppTheme.lightBorder),
                                 width: isSelected ? 1.5 : 0.5,
                               ),
@@ -337,7 +337,7 @@ class _CalendarTabState extends State<CalendarTab> {
                                             color: isToday
                                                 ? Colors.white
                                                 : !isCurrentMonth
-                                                ? theme.hintColor.withOpacity(
+                                                ? theme.hintColor.withValues(alpha:
                                                     0.3,
                                                   )
                                                 : theme
@@ -356,7 +356,7 @@ class _CalendarTabState extends State<CalendarTab> {
                                         ),
                                         decoration: BoxDecoration(
                                           color: AppTheme.primaryColor
-                                              .withOpacity(0.12),
+                                              .withValues(alpha:0.12),
                                           borderRadius: BorderRadius.circular(
                                             6,
                                           ),
@@ -390,7 +390,7 @@ class _CalendarTabState extends State<CalendarTab> {
                                             decoration: BoxDecoration(
                                               color: _priorityColor(
                                                 t.priority,
-                                              ).withOpacity(0.15),
+                                              ).withValues(alpha:0.15),
                                               borderRadius:
                                                   BorderRadius.circular(6),
                                               border: Border(
@@ -447,7 +447,7 @@ class _CalendarTabState extends State<CalendarTab> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(isDark ? 0.0 : 0.04),
+                    color: Colors.black.withValues(alpha:isDark ? 0.0 : 0.04),
                     blurRadius: 16,
                     offset: const Offset(0, 4),
                   ),
@@ -486,7 +486,7 @@ class _CalendarTabState extends State<CalendarTab> {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: AppTheme.primaryColor.withOpacity(0.12),
+                          color: AppTheme.primaryColor.withValues(alpha:0.12),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
@@ -588,7 +588,7 @@ class _CalendarTabState extends State<CalendarTab> {
                                       vertical: 4,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: priorityColor.withOpacity(0.12),
+                                      color: priorityColor.withValues(alpha:0.12),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Text(
@@ -727,7 +727,7 @@ class _CalendarTabState extends State<CalendarTab> {
                             color: isSelected
                                 ? AppTheme.primaryColor
                                 : isToday
-                                ? AppTheme.primaryColor.withOpacity(0.15)
+                                ? AppTheme.primaryColor.withValues(alpha:0.15)
                                 : Colors.transparent,
                             shape: BoxShape.circle,
                           ),
@@ -742,7 +742,7 @@ class _CalendarTabState extends State<CalendarTab> {
                                 color: isSelected
                                     ? Colors.white
                                     : !isCurrentMonth
-                                    ? theme.hintColor.withOpacity(0.3)
+                                    ? theme.hintColor.withValues(alpha:0.3)
                                     : isToday
                                     ? AppTheme.primaryColor
                                     : theme.textTheme.bodyMedium?.color,
@@ -796,7 +796,7 @@ class _CalendarTabState extends State<CalendarTab> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
-                  color: AppTheme.primaryColor.withOpacity(0.12),
+                  color: AppTheme.primaryColor.withValues(alpha:0.12),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
@@ -884,7 +884,7 @@ class _CalendarTabState extends State<CalendarTab> {
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: priorityColor.withOpacity(0.12),
+                            color: priorityColor.withValues(alpha:0.12),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(

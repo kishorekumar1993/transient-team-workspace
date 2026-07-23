@@ -2,9 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import '../../../../core/di/service_locator.dart';
-import '../../../../core/network/mock_task_api_interceptor.dart';
 import '../../../../core/network/network_info.dart';
+import '../../../../core/di/service_locator.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/theme/theme_cubit.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
@@ -198,7 +197,7 @@ class _DashboardHomeTabState extends State<DashboardHomeTab> {
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: AppTheme.primaryColor.withOpacity(0.3),
+                  color: AppTheme.primaryColor.withValues(alpha:0.3),
                   blurRadius: 10,
                   offset: const Offset(0, 3),
                 ),
@@ -295,7 +294,7 @@ class _DashboardHomeTabState extends State<DashboardHomeTab> {
 
   Widget _buildOfflineBanner() {
     return Container(
-      color: AppTheme.priorityHigh.withOpacity(0.9),
+      color: AppTheme.priorityHigh.withValues(alpha:0.9),
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -361,7 +360,7 @@ class _DashboardHomeTabState extends State<DashboardHomeTab> {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: AppTheme.primaryColor.withOpacity(0.1),
+                  color: AppTheme.primaryColor.withValues(alpha:0.1),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
@@ -464,7 +463,7 @@ class _DashboardHomeTabState extends State<DashboardHomeTab> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(isDark ? 0.0 : 0.05),
+            color: Colors.black.withValues(alpha:isDark ? 0.0 : 0.05),
             blurRadius: 18,
             offset: const Offset(0, 4),
           ),
@@ -530,7 +529,7 @@ class _DashboardHomeTabState extends State<DashboardHomeTab> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(isDark ? 0.0 : 0.03),
+                    color: Colors.black.withValues(alpha:isDark ? 0.0 : 0.03),
                     blurRadius: 12,
                     offset: const Offset(0, 2),
                   ),
@@ -619,10 +618,10 @@ class _DashboardHomeTabState extends State<DashboardHomeTab> {
                   height: 42,
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
-                    color: AppTheme.priorityHigh.withOpacity(0.1),
+                    color: AppTheme.priorityHigh.withValues(alpha:0.1),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: AppTheme.priorityHigh.withOpacity(0.3),
+                      color: AppTheme.priorityHigh.withValues(alpha:0.3),
                     ),
                   ),
                   child: Row(
@@ -697,7 +696,7 @@ class _DashboardHomeTabState extends State<DashboardHomeTab> {
           boxShadow: [
             if (isActive)
               BoxShadow(
-                color: AppTheme.primaryColor.withOpacity(0.3),
+                color: AppTheme.primaryColor.withValues(alpha:0.3),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -788,7 +787,7 @@ class _DashboardHomeTabState extends State<DashboardHomeTab> {
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.12),
+                      color: Colors.black.withValues(alpha:0.12),
                       blurRadius: 12,
                       offset: const Offset(0, 3),
                     ),
@@ -839,7 +838,7 @@ class _DashboardHomeTabState extends State<DashboardHomeTab> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(isDark ? 0.0 : 0.06),
+            color: Colors.black.withValues(alpha:isDark ? 0.0 : 0.06),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -885,7 +884,7 @@ class _DashboardHomeTabState extends State<DashboardHomeTab> {
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: priorityColor.withOpacity(0.12),
+                              color: priorityColor.withValues(alpha:0.12),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
@@ -906,7 +905,7 @@ class _DashboardHomeTabState extends State<DashboardHomeTab> {
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: statusColor.withOpacity(0.12),
+                              color: statusColor.withValues(alpha:0.12),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Row(
@@ -1007,7 +1006,7 @@ class _DashboardHomeTabState extends State<DashboardHomeTab> {
                         children: [
                           CircleAvatar(
                             radius: 12,
-                            backgroundColor: AppTheme.primaryColor.withOpacity(
+                            backgroundColor: AppTheme.primaryColor.withValues(alpha:
                               0.15,
                             ),
                             child: Text(
@@ -1135,7 +1134,7 @@ class _DashboardHomeTabState extends State<DashboardHomeTab> {
         ),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryColor.withOpacity(0.35),
+            color: AppTheme.primaryColor.withValues(alpha:0.35),
             blurRadius: 18,
             offset: const Offset(0, 6),
           ),

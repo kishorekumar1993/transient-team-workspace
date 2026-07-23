@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../auth/presentation/bloc/auth_event.dart';
-import '../bloc/task_list_bloc.dart';
-import '../bloc/task_list_event.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'dashboard_home_tab.dart';
@@ -135,7 +133,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       children: [
                         CircleAvatar(
                           radius: 18,
-                          backgroundColor: AppTheme.primaryColor.withOpacity(
+                          backgroundColor: AppTheme.primaryColor.withValues(alpha:
                             0.15,
                           ),
                           child: const Icon(
@@ -208,7 +206,7 @@ class _DashboardPageState extends State<DashboardPage> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
             color: isSelected
-                ? AppTheme.primaryColor.withOpacity(0.1)
+                ? AppTheme.primaryColor.withValues(alpha:0.1)
                 : Colors.transparent,
             borderRadius: BorderRadius.circular(10),
           ),
