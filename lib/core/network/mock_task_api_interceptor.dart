@@ -156,6 +156,8 @@ class MockTaskApiInterceptor extends Interceptor {
     final String search = queryParams['search']?.toString().toLowerCase() ?? '';
     final String status = queryParams['status']?.toString() ?? '';
     final String priority = queryParams['priority']?.toString() ?? '';
+    final String startDateStr = queryParams['startDate']?.toString() ?? '';
+    final String endDateStr = queryParams['endDate']?.toString() ?? '';
 
     // Apply filtering
     List<Map<String, dynamic>> filtered = List.from(_inMemoryTasks);
@@ -177,6 +179,21 @@ class MockTaskApiInterceptor extends Interceptor {
     // Filter by priority
     if (priority.isNotEmpty && priority != 'All') {
       filtered = filtered.where((t) => t['priority'] == priority).toList();
+    }
+
+    // Filter by date (startDate/endDate)
+    if (startDateStr.isNotEmpty && endDateStr.isNotEmpty) {
+      final startDate = DateTime.tryParse(startDateStr);
+      final endDate = DateTime.tryParse(endDateStr);
+      
+      if (startDate != null && endDate != null) {
+        filtered = filtered.where((t) {
+          final dueDate = DateTime.tryParse(t['dueDate'] ?? '');
+          if (dueDate == null) return false;
+          return dueDate.isAfter(startDate.subtract(const Duration(seconds: 1))) && 
+                 dueDate.isBefore(endDate.add(const Duration(seconds: 1)));
+        }).toList();
+      }
     }
 
     // Sort by createdAt descending (so new tasks appear first)
