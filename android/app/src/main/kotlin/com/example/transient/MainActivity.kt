@@ -1,4 +1,4 @@
-package com.example.transient
+package com.example.transientapp
 
 import io.flutter.embedding.android.FlutterActivity
 
