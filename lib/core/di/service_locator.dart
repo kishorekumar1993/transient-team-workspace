@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/auth/data/datasources/auth_local_data_source.dart';
@@ -53,6 +54,9 @@ Future<void> init() async {
   // Fail-safe selection of Remote Auth Source depending on Firebase configuration status
   late AuthRemoteDataSource authRemoteDataSource;
   try {
+    if (Firebase.apps.isEmpty || Firebase.app().options.apiKey.isEmpty) {
+      throw Exception('Firebase is not initialized or missing configuration');
+    }
     final authInstance = FirebaseAuth.instance;
     authRemoteDataSource = FirebaseAuthRemoteDataSourceImpl(authInstance);
     // ignore: avoid_print
